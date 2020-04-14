@@ -16,6 +16,9 @@ const generateCard = () => {
     poster: getRandomArrayItem(posterItems),
     description: getRandomArrayItem(descriptionItems),
     comments: generateCommentList(getRandomIntegerNumber(0, 10)),
+    isFavorite: true,
+    isWatchlist: true,
+    isHistory: true,
   };
 };
 

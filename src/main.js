@@ -16,17 +16,21 @@ const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const siteHeaderElement = document.querySelector(`.header`);
-render(siteHeaderElement, getUserRank());
-
-const filters = generateFilters();
-const sortings = generateSortings();
-
 let showingCardsCount = 5;
 const CARDS_COUNT = 15;
 const SHOWING_TASKS_COUNT_BY_BUTTON = 5;
 
 const cards = generateCards(CARDS_COUNT);
+
+const siteHeaderElement = document.querySelector(`.header`);
+render(siteHeaderElement, getUserRank());
+
+const filterCount = () => {
+  return cards.filter((card) => card.isFavorite).length;
+};
+
+const filters = generateFilters(filterCount());
+const sortings = generateSortings();
 
 const siteMainElement = document.querySelector(`.main`);
 render(siteMainElement, createFilterTemplate(filters));
@@ -43,23 +47,24 @@ cards.slice(0, showingCardsCount)
 
 // renderCards();
 
-if (cards.length > 5) {
+
+if (cards.length > showingCardsCount) {
   render(siteFilmsRegularList, getShowMoreFilmsButton());
+  const loadMoreFilmsButton = siteMainElement.querySelector(`.films-list__show-more`);
+
+  loadMoreFilmsButton.addEventListener(`click`, () => {
+
+    let previousCardsCount = showingCardsCount;
+    showingCardsCount += SHOWING_TASKS_COUNT_BY_BUTTON;
+
+    cards.slice(previousCardsCount, showingCardsCount)
+      .forEach((card) => render(siteFilmsRegularListContainer, createCardTemplate(card), `beforeend`));
+
+    if (showingCardsCount >= cards.length) {
+      loadMoreFilmsButton.remove();
+    }
+  });
 }
-
-const loadMoreFilmsButton = siteMainElement.querySelector(`.films-list__show-more`);
-
-loadMoreFilmsButton.addEventListener(`click`, () => {
-  let previousCardsCount = showingCardsCount;
-  showingCardsCount += SHOWING_TASKS_COUNT_BY_BUTTON;
-
-  cards.slice(previousCardsCount, showingCardsCount)
-    .forEach((card) => render(siteFilmsRegularListContainer, createCardTemplate(card), `beforeend`));
-
-  if (showingCardsCount >= cards.length) {
-    loadMoreFilmsButton.remove();
-  }
-});
 
 const getTopRated = (array) => {
   return (array.sort((a, b) => {

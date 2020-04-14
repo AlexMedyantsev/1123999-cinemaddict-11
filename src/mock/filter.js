@@ -1,10 +1,10 @@
 const filterNames = [`Watchlist`, `History`, `Favorites`];
 
-const generateFilters = () => {
+const generateFilters = (filterCount) => {
   return filterNames.map((name) => {
     return {
       name,
-      count: Math.floor(Math.random() * 10),
+      count: filterCount,
     };
   });
 };
