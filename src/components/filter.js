@@ -1,9 +1,23 @@
-export const getMoviesFilters = () => {
+const createFilterMarkup = (filter) => {
+  const {name, count} = filter;
+
   return (
-    `<ul class="sort">
-      <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
-      <li><a href="#" class="sort__button">Sort by date</a></li>
-      <li><a href="#" class="sort__button">Sort by rating</a></li>
-    </ul>`
+    `<a href="#${name}" class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>`
+  );
+};
+
+export const createFilterTemplate = (filters) => {
+  const filtersMarkup = filters.map((it, i) =>
+    createFilterMarkup(it, i === 0)).join(`\n`);
+
+  return (
+    `<nav class="main-navigation">
+       <div class="main-navigation__items">
+       <a href="#All" class="main-navigation__item">All</a>
+
+         ${filtersMarkup}
+       </div>
+       <a href="#stats" class="main-navigation__additional">Stats</a>
+    </nav>`
   );
 };
