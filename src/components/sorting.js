@@ -5,7 +5,7 @@ const createSortingMarkup = (name) => {
 };
 
 export const createSortingTemplate = (sortElements) => {
-  const sortingMarkup = sortElements.map((it) => createSortingMarkup(it.name)).join(`\n`);
+  const sortingMarkup = sortElements.map((item) => createSortingMarkup(item.name)).join(`\n`);
 
   return (
     `<ul class="sort">

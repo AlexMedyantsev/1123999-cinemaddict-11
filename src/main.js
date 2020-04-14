@@ -43,12 +43,11 @@ cards.slice(0, showingCardsCount)
 
 // renderCards();
 
-render(siteFilmsRegularList, getShowMoreFilmsButton());
+if (cards.length > 5) {
+  render(siteFilmsRegularList, getShowMoreFilmsButton());
+}
 
 const loadMoreFilmsButton = siteMainElement.querySelector(`.films-list__show-more`);
-
-// loadMoreFilmsButton.addEventListener(`click`, function () => {
-// });
 
 loadMoreFilmsButton.addEventListener(`click`, () => {
   let previousCardsCount = showingCardsCount;
@@ -70,16 +69,16 @@ const getTopRated = (array) => {
 
 const getTopCommented = (array) => {
   return (array.sort((a, b) => {
-    return b.comments - a.comments;
+    return b.comments.length - a.comments.length;
   }).slice(0, 2));
 };
 
-const topRatedFilms = getTopRated(cards).map((it) => {
-  return createCardTemplate(it);
+const topRatedFilms = getTopRated(cards).map((item) => {
+  return createCardTemplate(item);
 }).join(`\n`);
 
-const topCommentedFilms = getTopCommented(cards).map((it) => {
-  return createCardTemplate(it);
+const topCommentedFilms = getTopCommented(cards).map((item) => {
+  return createCardTemplate(item);
 }).join(`\n`);
 
 render(siteFilmsElement, getFilmsExtraElement(`Top Rated`, topRatedFilms, `beforeend`));

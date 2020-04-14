@@ -122,16 +122,16 @@ export const getMovieDetails = ({title, rating, year, duration, poster, descript
 };
 
 const createCommentTemplate = (comments) => {
-  return comments.map((it) => {
+  return comments.map((item) => {
     return (`<li class="film-details__comment">
     <span class="film-details__comment-emoji">
-      <img src="./images/emoji/${it.emoji}.png" width="55" height="55" alt="emoji-${it.emoji}">
+      <img src="./images/emoji/${item.emoji}.png" width="55" height="55" alt="emoji-${it.emoji}">
     </span>
     <div>
-      <p class="film-details__comment-text">${it.text}</p>
+      <p class="film-details__comment-text">${item.text}</p>
       <p class="film-details__comment-info">
-        <span class="film-details__comment-author">${it.author}</span>
-        <span class="film-details__comment-day">${new Date(it.date)}</span>
+        <span class="film-details__comment-author">${item.author}</span>
+        <span class="film-details__comment-day">${new Date(item.date)}</span>
         <button class="film-details__comment-delete">Delete</button>
       </p>
     </div>

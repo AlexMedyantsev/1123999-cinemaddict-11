@@ -13,7 +13,7 @@ export const createFilterTemplate = (filters) => {
   return (
     `<nav class="main-navigation">
        <div class="main-navigation__items">
-       <a href="#All" class="main-navigation__item">All</a>
+       <a href="#All" class="main-navigation__item">All Movies</a>
 
          ${filtersMarkup}
        </div>
