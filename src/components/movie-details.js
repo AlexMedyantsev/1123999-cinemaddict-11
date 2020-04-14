@@ -125,7 +125,7 @@ const createCommentTemplate = (comments) => {
   return comments.map((item) => {
     return (`<li class="film-details__comment">
     <span class="film-details__comment-emoji">
-      <img src="./images/emoji/${item.emoji}.png" width="55" height="55" alt="emoji-${it.emoji}">
+      <img src="./images/emoji/${item.emoji}.png" width="55" height="55" alt="emoji-${item.emoji}">
     </span>
     <div>
       <p class="film-details__comment-text">${item.text}</p>
