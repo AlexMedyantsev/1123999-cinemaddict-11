@@ -1,4 +1,4 @@
-import {getRandomArrayItem, getRandomIntegerNumber, getMockTime} from "../components/utils.js";
+import {getRandomArrayItem, getZeroOrOne, getRandomIntegerNumber, getMockTime} from "../components/utils.js";
 import {generateCommentList} from "./comments.js";
 
 const titleItems = [`Interstellar`, `Inception`, `Prestige`, `Forrest Gump`, `Godfather`, `Once in America`, `The Shawshank Redemption`];
@@ -16,9 +16,9 @@ const generateCard = () => {
     poster: getRandomArrayItem(posterItems),
     description: getRandomArrayItem(descriptionItems),
     comments: generateCommentList(getRandomIntegerNumber(0, 10)),
-    isFavorite: true,
-    isWatchlist: true,
-    isHistory: true,
+    isFavorite: getZeroOrOne(),
+    isInWatchlist: getZeroOrOne(),
+    isInHistory: getZeroOrOne(),
   };
 };
 

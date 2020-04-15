@@ -25,11 +25,7 @@ const cards = generateCards(CARDS_COUNT);
 const siteHeaderElement = document.querySelector(`.header`);
 render(siteHeaderElement, getUserRank());
 
-const filterCount = () => {
-  return cards.filter((card) => card.isFavorite).length;
-};
-
-const filters = generateFilters(filterCount());
+const filters = generateFilters(cards);
 const sortings = generateSortings();
 
 const siteMainElement = document.querySelector(`.main`);

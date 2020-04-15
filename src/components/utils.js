@@ -2,6 +2,10 @@ const getRandomIntegerNumber = (min, max, afterCommaNumbers = 0) => {
   return (Math.random() * (max - min) + min).toFixed(afterCommaNumbers);
 };
 
+const getZeroOrOne = () => {
+  return Math.random() > 0.5;
+};
+
 const getRandomArrayItem = (array) => {
   const randomIndex = (getRandomIntegerNumber(0, array.length - 1));
 
@@ -19,4 +23,4 @@ const getRandomDate = () => {
   return Date.now() - getRandomIntegerNumber(1000000, 1000000000000);
 };
 
-export {getRandomIntegerNumber, getRandomArrayItem, getMockTime, getRandomDate};
+export {getRandomIntegerNumber, getZeroOrOne, getRandomArrayItem, getMockTime, getRandomDate};
