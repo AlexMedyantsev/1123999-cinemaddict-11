@@ -1,3 +1,5 @@
+import {createElement} from "./utils.js";
+
 export const createCardTemplate = (card) => {
   const {title, rating, year, duration, genre, poster, description, comments} = card;
 
@@ -21,3 +23,24 @@ export const createCardTemplate = (card) => {
     </article>`
   );
 };
+
+export default class Card {
+  constructor(card) {
+    this._card = card;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createCardTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this._getTemplate());
+    }
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

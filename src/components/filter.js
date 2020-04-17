@@ -1,3 +1,5 @@
+import {createElement} from "./utils.js";
+
 const createFilterMarkup = (filter) => {
   const {name, count} = filter;
 
@@ -14,10 +16,32 @@ export const createFilterTemplate = (filters) => {
     `<nav class="main-navigation">
        <div class="main-navigation__items">
        <a href="#All" class="main-navigation__item">All Movies</a>
-
          ${filtersMarkup}
        </div>
        <a href="#stats" class="main-navigation__additional">Stats</a>
     </nav>`
   );
 };
+
+export default class Filter {
+  constructor(filters) {
+    this._filters = filters;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilterTemplate(this._filters);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
