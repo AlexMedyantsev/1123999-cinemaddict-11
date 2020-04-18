@@ -1,6 +1,7 @@
 import FilterComponent from "./components/filter.js";
 import MovieDetailsPopupComponent from "./components/movie-details.js";
 import CardComponent from "./components/card.js";
+import NoCardComponent from "./components/no-cards.js";
 import FilmsExtraComponent from "./components/films-extra.js";
 import BoardComponent from "./components/board.js";
 import FooterMoviesComponent from "./components/footer-movies-amount.js";
@@ -13,8 +14,8 @@ import {generateCards} from "./mock/card.js";
 import {render, RenderPosition} from "./utils.js";
 
 let SHOWING_CARDS_COUNT_ON_START = 5;
-const CARDS_COUNT = 15;
-const SHOWING_CARDS_COUNT_BY_BUTTON = 5;
+let CARDS_COUNT = 15;
+let SHOWING_CARDS_COUNT_BY_BUTTON = 5;
 
 const renderExtraCards = (container, cards, title) => {
   const filmsExtraComponent = new FilmsExtraComponent(title);
@@ -74,6 +75,11 @@ const renderBoard = (boardComponent, cards) => {
   const cardFilmsMainElement = siteMainElement.querySelector(`.films`);
   const cardListElement = boardComponent.getElement().querySelector(`.films-list`);
   const cardListContainerElement = boardComponent.getElement().querySelector(`.films-list__container`);
+
+  if (CARDS_COUNT === 0) {
+    render(cardListElement, new NoCardComponent().getElement(), RenderPosition.BEFOREEND);
+    return;
+  }
 
   let showingCardsCount = SHOWING_CARDS_COUNT_ON_START;
   cards.slice(0, showingCardsCount)
