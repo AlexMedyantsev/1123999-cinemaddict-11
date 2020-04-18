@@ -1,6 +1,6 @@
-import {createElement} from "./utils.js";
+import {createElement} from "../utils.js";
 
-const getFilmDetails = ({title, rating, year, duration, poster, description}) => {
+const getFilmDetails = ({title, rating, year, duration, poster, description, comments}) => {
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -83,6 +83,7 @@ const getFilmDetails = ({title, rating, year, duration, poster, description}) =>
           <section class="film-details__comments-wrap">
 
             <ul class="film-details__comments-list">
+              ${createCommentTemplate(comments)}
             </ul>
 
             <div class="film-details__new-comment">
@@ -121,23 +122,23 @@ const getFilmDetails = ({title, rating, year, duration, poster, description}) =>
   );
 };
 
-// const createCommentTemplate = (comments) => {
-//   return comments.map((item) => {
-//     return (`<li class="film-details__comment">
-//     <span class="film-details__comment-emoji">
-//       <img src="./images/emoji/${item.emoji}.png" width="55" height="55" alt="emoji-${item.emoji}">
-//     </span>
-//     <div>
-//       <p class="film-details__comment-text">${item.text}</p>
-//       <p class="film-details__comment-info">
-//         <span class="film-details__comment-author">${item.author}</span>
-//         <span class="film-details__comment-day">${new Date(item.date)}</span>
-//         <button class="film-details__comment-delete">Delete</button>
-//       </p>
-//     </div>
-//   </li>`);
-//   }).join(`\n`);
-// };
+const createCommentTemplate = (comments) => {
+  return comments.map((item) => {
+    return (`<li class="film-details__comment">
+    <span class="film-details__comment-emoji">
+      <img src="./images/emoji/${item.emoji}.png" width="55" height="55" alt="emoji-${item.emoji}">
+    </span>
+    <div>
+      <p class="film-details__comment-text">${item.text}</p>
+      <p class="film-details__comment-info">
+        <span class="film-details__comment-author">${item.author}</span>
+        <span class="film-details__comment-day">${new Date(item.date)}</span>
+        <button class="film-details__comment-delete">Delete</button>
+      </p>
+    </div>
+  </li>`);
+  }).join(`\n`);
+};
 
 export default class Popup {
   constructor(filmDetails) {

@@ -10,15 +10,24 @@ import LoadMoreButtonComponent from "./components/load-more-button.js";
 import {generateFilters} from "./mock/filter.js";
 import {generateSortings} from "./mock/sorting.js";
 import {generateCards} from "./mock/card.js";
-import {render, RenderPosition} from "./components/utils.js";
+import {render, RenderPosition} from "./utils.js";
 
 let SHOWING_CARDS_COUNT_ON_START = 5;
 const CARDS_COUNT = 15;
 const SHOWING_CARDS_COUNT_BY_BUTTON = 5;
 
+const renderExtraCards = (container, cards, title) => {
+  const filmsExtraComponent = new FilmsExtraComponent(title);
+  render(container, filmsExtraComponent.getElement(), RenderPosition.BEFOREEND);
+  const filmsListContainer = filmsExtraComponent.getElement().querySelector(`.films-list__container`);
+  cards.forEach((card) => {
+    renderCard(filmsListContainer, card);
+  });
+};
+
 const renderCard = (cardListElement, card) => {
   const cardComponent = new CardComponent(card);
-  const movieDetailsPopupComponent = new MovieDetailsPopupComponent(cardComponent);
+  const movieDetailsPopupComponent = new MovieDetailsPopupComponent(card);
 
   const filmPoster = cardComponent.getElement().querySelector(`.film-card__poster`);
   const filmCardComment = cardComponent.getElement().querySelector(`.film-card__comments`);
@@ -36,7 +45,8 @@ const renderCard = (cardListElement, card) => {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
     if (isEscKey) {
       closePopup();
-      document.removeEventListener(`keydown`, onEscKeyDown());
+      // bodyElement.removeChild(movieDetailsPopupComponent.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
     }
   };
 
@@ -101,16 +111,8 @@ const renderBoard = (boardComponent, cards) => {
     }).slice(0, 2));
   };
 
-  const topRatedFilms = getTopRated(cards).map((item) => {
-    return new CardComponent(item).getTemplate();
-  }).join(`\n`);
-
-  const topCommentedFilms = getTopCommented(cards).map((item) => {
-    return new CardComponent(item).getTemplate();
-  }).join(`\n`);
-
-  render(cardFilmsMainElement, new FilmsExtraComponent(`Top Rated`, topRatedFilms).getElement(), RenderPosition.BEFOREEND);
-  render(cardFilmsMainElement, new FilmsExtraComponent(`Most Commented`, topCommentedFilms).getElement(), RenderPosition.BEFOREEND);
+  renderExtraCards(cardFilmsMainElement, getTopRated(cards), `Top Rated`);
+  renderExtraCards(cardFilmsMainElement, getTopCommented(cards), `Most Commented`);
 };
 
 // BODY
