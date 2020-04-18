@@ -1,20 +1,16 @@
-import {createFilterTemplate} from "./components/filter.js";
-import {createSortingTemplate} from "./components/sorting.js";
-import {getMovieDetails} from "./components/movie-details.js";
-import {createCardTemplate} from "./components/card.js";
-import {generateCards} from "./mock/card.js";
-import {getFilmsExtraElement} from "./components/films-extra.js";
-import {createBoardTemplate} from "./components/board.js";
-import {getFooterMoviesAmount} from "./components/footer-movies-amount.js";
+import FilterComponent from "./components/filter.js";
+import MovieDetailsPopupComponent from "./components/movie-details.js";
+import CardComponent from "./components/card.js";
+import FilmsExtraComponent from "./components/films-extra.js";
+import BoardComponent from "./components/board.js";
+import FooterMoviesComponent from "./components/footer-movies-amount.js";
+import SortingComponent from "./components/sorting.js";
+import UserRankComponent from "./components/user-rank.js";
+import LoadMoreButtonComponent from "./components/load-more-button.js";
 import {generateFilters} from "./mock/filter.js";
 import {generateSortings} from "./mock/sorting.js";
-import {getUserRank} from "./components/user-rank.js";
-import {getShowMoreFilmsButton} from "./components/load-more-button.js";
-
-
-const render = (container, template, place = `beforeend`) => {
-  container.insertAdjacentHTML(place, template);
-};
+import {generateCards} from "./mock/card.js";
+import {render, RenderPosition} from "./components/utils.js";
 
 let showingCardsCount = 5;
 const CARDS_COUNT = 15;
