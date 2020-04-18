@@ -21,6 +21,7 @@ const renderCard = (cardListElement, card) => {
   const movieDetailsPopupComponent = new MovieDetailsPopupComponent(cardComponent);
 
   const filmPoster = cardComponent.getElement().querySelector(`.film-card__poster`);
+  const filmCardComment = cardComponent.getElement().querySelector(`.film-card__comments`);
   const closePopupButton = movieDetailsPopupComponent.getElement().querySelector(`.film-details__close-btn`);
 
   const openPopup = () => {
@@ -40,6 +41,11 @@ const renderCard = (cardListElement, card) => {
   };
 
   filmPoster.addEventListener(`click`, () => {
+    document.addEventListener(`keydown`, onEscKeyDown);
+    openPopup();
+  });
+
+  filmCardComment.addEventListener(`click`, () => {
     document.addEventListener(`keydown`, onEscKeyDown);
     openPopup();
   });
