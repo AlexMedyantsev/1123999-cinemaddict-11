@@ -1,6 +1,8 @@
-export const getMovieDetails = ({title, rating, year, duration, poster, description, comments}) => {
+import {createElement} from "./utils.js";
+
+const getFilmDetails = ({title, rating, year, duration, poster, description}) => {
   return (
-    `<section class="film-details" hidden>
+    `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
         <div class="form-details__top-container">
           <div class="film-details__close">
@@ -79,10 +81,8 @@ export const getMovieDetails = ({title, rating, year, duration, poster, descript
 
         <div class="form-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
             <ul class="film-details__comments-list">
-              ${createCommentTemplate(comments)}
             </ul>
 
             <div class="film-details__new-comment">
@@ -121,20 +121,43 @@ export const getMovieDetails = ({title, rating, year, duration, poster, descript
   );
 };
 
-const createCommentTemplate = (comments) => {
-  return comments.map((item) => {
-    return (`<li class="film-details__comment">
-    <span class="film-details__comment-emoji">
-      <img src="./images/emoji/${item.emoji}.png" width="55" height="55" alt="emoji-${item.emoji}">
-    </span>
-    <div>
-      <p class="film-details__comment-text">${item.text}</p>
-      <p class="film-details__comment-info">
-        <span class="film-details__comment-author">${item.author}</span>
-        <span class="film-details__comment-day">${new Date(item.date)}</span>
-        <button class="film-details__comment-delete">Delete</button>
-      </p>
-    </div>
-  </li>`);
-  }).join(`\n`);
-};
+// const createCommentTemplate = (comments) => {
+//   return comments.map((item) => {
+//     return (`<li class="film-details__comment">
+//     <span class="film-details__comment-emoji">
+//       <img src="./images/emoji/${item.emoji}.png" width="55" height="55" alt="emoji-${item.emoji}">
+//     </span>
+//     <div>
+//       <p class="film-details__comment-text">${item.text}</p>
+//       <p class="film-details__comment-info">
+//         <span class="film-details__comment-author">${item.author}</span>
+//         <span class="film-details__comment-day">${new Date(item.date)}</span>
+//         <button class="film-details__comment-delete">Delete</button>
+//       </p>
+//     </div>
+//   </li>`);
+//   }).join(`\n`);
+// };
+
+export default class Popup {
+  constructor(filmDetails) {
+    this._filmDetails = filmDetails;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return getFilmDetails(this._filmDetails);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
