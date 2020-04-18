@@ -1,4 +1,4 @@
-import {getRandomArrayItem, getZeroOrOne, getRandomIntegerNumber, getMockTime} from "../components/utils.js";
+import {getRandomArrayItem, getZeroOrOne, getRandomIntegerNumber, getMockTime} from "../utils.js";
 import {generateCommentList} from "./comments.js";
 
 const titleItems = [`Interstellar`, `Inception`, `Prestige`, `Forrest Gump`, `Godfather`, `Once in America`, `The Shawshank Redemption`];
