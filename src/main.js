@@ -30,9 +30,6 @@ const renderCard = (cardListElement, card) => {
   const cardComponent = new CardComponent(card);
   const movieDetailsPopupComponent = new MovieDetailsPopupComponent(card);
 
-
-  const closePopupButton = movieDetailsPopupComponent.getElement().querySelector(`.film-details__close-btn`);
-
   const openPopup = () => {
     bodyElement.appendChild(movieDetailsPopupComponent.getElement());
   };
@@ -64,7 +61,7 @@ const renderCard = (cardListElement, card) => {
     closePopup();
   });
 
-  movieDetailsPopupComponent.setKeydownHandler(`keydown`, onEscKeyDown);
+  movieDetailsPopupComponent.setKeydownHandler(onEscKeyDown);
 
   render(cardListElement, cardComponent, RenderPosition.BEFOREEND);
 };
