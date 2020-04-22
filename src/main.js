@@ -11,7 +11,7 @@ import LoadMoreButtonComponent from "./components/load-more-button.js";
 import {generateFilters} from "./mock/filter.js";
 import {generateSortings} from "./mock/sorting.js";
 import {generateCards} from "./mock/card.js";
-import {render, RenderPosition} from "./utils.js";
+import {render, replace, remove, RenderPosition} from "./utils/render.js";
 
 let SHOWING_CARDS_COUNT_ON_START = 5;
 let CARDS_COUNT = 15;
@@ -19,7 +19,7 @@ let SHOWING_CARDS_COUNT_BY_BUTTON = 5;
 
 const renderExtraCards = (container, cards, title) => {
   const filmsExtraComponent = new FilmsExtraComponent(title);
-  render(container, filmsExtraComponent.getElement(), RenderPosition.BEFOREEND);
+  render(container, filmsExtraComponent, RenderPosition.BEFOREEND);
   const filmsListContainer = filmsExtraComponent.getElement().querySelector(`.films-list__container`);
   cards.forEach((card) => {
     renderCard(filmsListContainer, card);
@@ -46,7 +46,6 @@ const renderCard = (cardListElement, card) => {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
     if (isEscKey) {
       closePopup();
-      // bodyElement.removeChild(movieDetailsPopupComponent.getElement());
       document.removeEventListener(`keydown`, onEscKeyDown);
     }
   };
@@ -68,7 +67,7 @@ const renderCard = (cardListElement, card) => {
 
   closePopupButton.addEventListener(`keydown`, onEscKeyDown);
 
-  render(cardListElement, cardComponent.getElement(), RenderPosition.BEFOREEND);
+  render(cardListElement, cardComponent, RenderPosition.BEFOREEND);
 };
 
 const renderBoard = (boardComponent, cards) => {
@@ -77,7 +76,7 @@ const renderBoard = (boardComponent, cards) => {
   const cardListContainerElement = boardComponent.getElement().querySelector(`.films-list__container`);
 
   if (CARDS_COUNT === 0) {
-    render(cardListElement, new NoCardComponent().getElement(), RenderPosition.BEFOREEND);
+    render(cardListElement, new NoCardComponent(), RenderPosition.BEFOREEND);
     return;
   }
 
@@ -89,7 +88,7 @@ const renderBoard = (boardComponent, cards) => {
 
   const loadMoreButtonComponent = new LoadMoreButtonComponent();
   if (cards.length > showingCardsCount) {
-    render(cardListElement, loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
+    render(cardListElement, loadMoreButtonComponent, RenderPosition.BEFOREEND);
 
     loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
       const previousCardCount = showingCardsCount;
@@ -98,9 +97,8 @@ const renderBoard = (boardComponent, cards) => {
       cards.slice(previousCardCount, showingCardsCount)
         .forEach((card) => renderCard(cardListContainerElement, card));
 
-      if (cards.length <= showingCardsCount) {
-        loadMoreButtonComponent.getElement().remove();
-        loadMoreButtonComponent.removeElement();
+      if (showingCardsCount >= cards.length) {
+        remove(loadMoreButtonComponent.getElement());
       }
     });
   }
@@ -125,7 +123,7 @@ const renderBoard = (boardComponent, cards) => {
 const bodyElement = document.querySelector(`body`);
 // HEADER
 const siteHeaderElement = document.querySelector(`.header`);
-render(siteHeaderElement, new UserRankComponent().getElement(), RenderPosition.BEFOREEND);
+render(siteHeaderElement, new UserRankComponent(), RenderPosition.BEFOREEND);
 
 // MAIN
 const siteMainElement = document.querySelector(`.main`);
@@ -134,13 +132,13 @@ const cards = generateCards(CARDS_COUNT);
 const filters = generateFilters(cards);
 const sortings = generateSortings();
 
-render(siteMainElement, new FilterComponent(filters).getElement(), RenderPosition.BEFOREEND);
-render(siteMainElement, new SortingComponent(sortings).getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new FilterComponent(filters), RenderPosition.BEFOREEND);
+render(siteMainElement, new SortingComponent(sortings), RenderPosition.BEFOREEND);
 
 const boardComponent = new BoardComponent();
-render(siteMainElement, boardComponent.getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, boardComponent, RenderPosition.BEFOREEND);
 renderBoard(boardComponent, cards);
 
 // FOOTER
 const siteFooterElement = document.querySelector(`.footer`);
-render(siteFooterElement, new FooterMoviesComponent(CARDS_COUNT).getElement(), RenderPosition.BEFOREEND);
+render(siteFooterElement, new FooterMoviesComponent(CARDS_COUNT), RenderPosition.BEFOREEND);

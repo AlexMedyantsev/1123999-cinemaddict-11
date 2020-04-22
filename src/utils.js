@@ -23,27 +23,4 @@ const getRandomDate = () => {
   return Date.now() - getRandomIntegerNumber(1000000, 1000000000000);
 };
 
-const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-
-  newElement.innerHTML = template;
-  return newElement.firstChild;
-};
-
-const RenderPosition = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
-};
-
-const render = (container, element, place) => {
-  switch (place) {
-    case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
-
-export {getRandomIntegerNumber, render, RenderPosition, createElement, getZeroOrOne, getRandomArrayItem, getMockTime, getRandomDate};
+export {getRandomIntegerNumber, getZeroOrOne, getRandomArrayItem, getMockTime, getRandomDate};
