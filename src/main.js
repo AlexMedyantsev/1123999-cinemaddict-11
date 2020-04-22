@@ -11,7 +11,7 @@ import LoadMoreButtonComponent from "./components/load-more-button.js";
 import {generateFilters} from "./mock/filter.js";
 import {generateSortings} from "./mock/sorting.js";
 import {generateCards} from "./mock/card.js";
-import {render, replace, remove, RenderPosition} from "./utils/render.js";
+import {render, remove, RenderPosition} from "./utils/render.js";
 
 let SHOWING_CARDS_COUNT_ON_START = 5;
 let CARDS_COUNT = 15;
@@ -30,8 +30,7 @@ const renderCard = (cardListElement, card) => {
   const cardComponent = new CardComponent(card);
   const movieDetailsPopupComponent = new MovieDetailsPopupComponent(card);
 
-  const filmPoster = cardComponent.getElement().querySelector(`.film-card__poster`);
-  const filmCardComment = cardComponent.getElement().querySelector(`.film-card__comments`);
+
   const closePopupButton = movieDetailsPopupComponent.getElement().querySelector(`.film-details__close-btn`);
 
   const openPopup = () => {
@@ -50,22 +49,22 @@ const renderCard = (cardListElement, card) => {
     }
   };
 
-  filmPoster.addEventListener(`click`, () => {
+  cardComponent.setClickHandler(`.film-card__poster`, () => {
     document.addEventListener(`keydown`, onEscKeyDown);
     openPopup();
   });
 
-  filmCardComment.addEventListener(`click`, () => {
+  cardComponent.setClickHandler(`.film-card__comments`, () => {
     document.addEventListener(`keydown`, onEscKeyDown);
     openPopup();
   });
 
 
-  closePopupButton.addEventListener(`click`, () => {
+  movieDetailsPopupComponent.setCloseButtonClickHandler(() => {
     closePopup();
   });
 
-  closePopupButton.addEventListener(`keydown`, onEscKeyDown);
+  movieDetailsPopupComponent.setKeydownHandler(`keydown`, onEscKeyDown);
 
   render(cardListElement, cardComponent, RenderPosition.BEFOREEND);
 };
@@ -90,7 +89,7 @@ const renderBoard = (boardComponent, cards) => {
   if (cards.length > showingCardsCount) {
     render(cardListElement, loadMoreButtonComponent, RenderPosition.BEFOREEND);
 
-    loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
+    loadMoreButtonComponent.setClickHandler(() => {
       const previousCardCount = showingCardsCount;
       showingCardsCount += SHOWING_CARDS_COUNT_BY_BUTTON;
 
