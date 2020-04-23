@@ -34,10 +34,8 @@ export default class Card extends AbstractComponent {
     return createCardTemplate(this._card);
   }
 
-  setClickHandler(handler) {
-    this.getElement().querySelector(`.film-card__poster`)
-      .addEventListener(`click`, handler);
-    this.getElement().querySelector(`.film-card__comments`)
+  setClickHandler(element, handler) {
+    this.getElement().querySelector(element)
       .addEventListener(`click`, handler);
   }
 }

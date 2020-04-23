@@ -1,6 +1,6 @@
 import FilterComponent from "./components/filter.js";
 import BoardComponent from "./components/board.js";
-import BoardController from "./controllers/board.js";
+import PageController from "./controllers/page.js";
 import FooterMoviesComponent from "./components/footer-movies-amount.js";
 import SortingComponent from "./components/sorting.js";
 import UserRankComponent from "./components/user-rank.js";
@@ -26,10 +26,10 @@ render(siteMainElement, new FilterComponent(filters), RenderPosition.BEFOREEND);
 render(siteMainElement, new SortingComponent(sortings), RenderPosition.BEFOREEND);
 
 const boardComponent = new BoardComponent();
-const boardController = new BoardController(boardComponent);
+const pageController = new PageController(boardComponent);
 
 render(siteMainElement, boardComponent, RenderPosition.BEFOREEND);
-boardController.render(cards);
+pageController.render(cards);
 
 // FOOTER
 const siteFooterElement = document.querySelector(`.footer`);

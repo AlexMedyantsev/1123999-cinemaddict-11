@@ -23,4 +23,16 @@ const getRandomDate = () => {
   return Date.now() - getRandomIntegerNumber(1000000, 1000000000000);
 };
 
-export {getRandomIntegerNumber, getZeroOrOne, getRandomArrayItem, getMockTime, getRandomDate};
+const getTopRated = (array) => {
+  return (array.sort((a, b) => {
+    return b.rating - a.rating;
+  }).slice(0, 2));
+};
+
+const getTopCommented = (array) => {
+  return (array.sort((a, b) => {
+    return b.comments.length - a.comments.length;
+  }).slice(0, 2));
+};
+
+export {getRandomIntegerNumber, getZeroOrOne, getRandomArrayItem, getMockTime, getRandomDate, getTopRated, getTopCommented};

@@ -155,8 +155,8 @@ export default class Popup extends AbstractComponent {
       .addEventListener(`click`, handler);
   }
 
-  setKeydownHandler(handler) {
+  removeCloseButtonClickHandler(handler) {
     this.getElement().querySelector(`.film-details__close-btn`)
-      .addEventListener(`keydown`, handler);
+      .removeEventListener(`click`, handler);
   }
 }
