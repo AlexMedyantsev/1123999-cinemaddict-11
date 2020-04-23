@@ -26,4 +26,12 @@ export default class Sorting extends AbstractComponent {
   getTemplate() {
     return createSortingTemplate(this._sortings);
   }
+
+  getSortType() {
+
+  }
+
+  getSortTypeChangeClickHandler() {
+
+  }
 }
