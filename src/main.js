@@ -20,10 +20,9 @@ const siteMainElement = document.querySelector(`.main`);
 
 const cards = generateCards(CARDS_COUNT);
 const filters = generateFilters(cards);
-const sortings = generateSortings();
 
 render(siteMainElement, new FilterComponent(filters), RenderPosition.BEFOREEND);
-render(siteMainElement, new SortingComponent(sortings), RenderPosition.BEFOREEND);
+render(siteMainElement, new SortingComponent(), RenderPosition.BEFOREEND);
 
 const boardComponent = new BoardComponent();
 const pageController = new PageController(boardComponent);
