@@ -130,14 +130,10 @@ export default class PageController {
     this._filterComponent = new FilterComponent(filters);
 
     render(siteMainElement, this._sortingComponent, RenderPosition.AFTERBEGIN);
-
     render(siteMainElement, this._filterComponent, RenderPosition.AFTERBEGIN);
-
-
 
     renderCards(cardListContainerElement, cards.slice(0, showingCardsCount));
     renderLoadMoreButton();
-
 
     renderExtraCards(container, getTopRated(cards), `Top Rated`);
     renderExtraCards(this._container.getElement(), getTopCommented(cards), `Most Commented`);
