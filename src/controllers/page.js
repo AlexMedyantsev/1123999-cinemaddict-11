@@ -2,6 +2,8 @@ import MovieDetailsPopupComponent from "../components/movie-details.js";
 import CardsComponent from "../components/card.js";
 import SortingComponent, {SortType} from "../components/sorting.js";
 import NoCardsComponent from "../components/no-cards.js";
+import {generateFilters} from "../mock/filter.js";
+import FilterComponent from "../components/filter.js";
 import FilmsExtraComponent from "../components/films-extra.js";
 import LoadMoreButtonComponent from "../components/load-more-button.js";
 import {render, remove, RenderPosition} from "../utils/render.js";
@@ -62,7 +64,7 @@ const renderCards = (cardListElement, cards) => {
   });
 };
 
-const getSortedCards = (cards, sortType, from, to) => {
+const getSortedCards = (cards, sortType) => {
   let sortedCards = [];
   const showingCards = cards.slice();
 
@@ -73,9 +75,12 @@ const getSortedCards = (cards, sortType, from, to) => {
     case SortType.RATING:
       sortedCards = showingCards.sort((a, b) => b.rating - a.rating);
       break;
+    case SortType.DATE:
+      sortedCards = showingCards.sort((a, b) => b.year - a.year);
+      break;
   }
 
-  return sortedCards.slice(from, to);
+  return sortedCards;
 };
 
 export default class PageController {
@@ -84,10 +89,13 @@ export default class PageController {
 
     this._noCardsComponent = new NoCardsComponent();
     this._sortingComponent = new SortingComponent();
+    this._filterComponent = null;
+    this._sortedCards = [];
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
   }
 
   render(cards) {
+    this._sortedCards = cards;
     let showingCardsCount = SHOWING_CARDS_COUNT_ON_START;
     const cardListElement = siteMainElement.querySelector(`.films-list`);
     const cardListContainerElement = siteMainElement.querySelector(`.films-list__container`);
@@ -105,7 +113,7 @@ export default class PageController {
           const previousCardsCount = showingCardsCount;
           showingCardsCount += SHOWING_CARDS_COUNT_BY_BUTTON;
 
-          const sortedCards = getSortedCards(cards, this._sortingComponent.getSortType(), previousCardsCount, showingCardsCount);
+          const sortedCards = this._sortedCards.slice(previousCardsCount, showingCardsCount);
 
           renderCards(cardListContainerElement, sortedCards);
 
@@ -118,8 +126,18 @@ export default class PageController {
 
     const container = this._container.getElement();
 
+    const filters = generateFilters(cards);
+    this._filterComponent = new FilterComponent(filters);
+
+    render(siteMainElement, this._sortingComponent, RenderPosition.AFTERBEGIN);
+
+    render(siteMainElement, this._filterComponent, RenderPosition.AFTERBEGIN);
+
+
+
     renderCards(cardListContainerElement, cards.slice(0, showingCardsCount));
     renderLoadMoreButton();
+
 
     renderExtraCards(container, getTopRated(cards), `Top Rated`);
     renderExtraCards(this._container.getElement(), getTopCommented(cards), `Most Commented`);
@@ -127,12 +145,10 @@ export default class PageController {
     this._sortingComponent.setSortTypeChangeHandler((sortType) => {
       showingCardsCount = SHOWING_CARDS_COUNT_BY_BUTTON;
 
-      const sortedCards = getSortedCards(cards, sortType, 0, showingCardsCount);
-      cardListElement.innerHTML = ``;
+      this._sortedCards = getSortedCards(cards, sortType);
+      cardListContainerElement.innerHTML = ``;
 
-      renderCards(cardListElement, sortedCards.slice(0, showingCardsCount));
-
-      renderLoadMoreButton();
+      renderCards(cardListContainerElement, this._sortedCards.slice(0, showingCardsCount));
     });
   }
 }
