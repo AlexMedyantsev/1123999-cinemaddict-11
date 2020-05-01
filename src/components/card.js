@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 
 export const createCardTemplate = (card) => {
   const {title, rating, year, duration, genre, poster, description, comments, isFavorite, isInHistory, isInWatchlist} = card;
@@ -24,7 +24,7 @@ export const createCardTemplate = (card) => {
   );
 };
 
-export default class Card extends AbstractComponent {
+export default class Card extends AbstractSmartComponent {
   constructor(card) {
     super();
     this._card = card;

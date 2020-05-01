@@ -3,37 +3,48 @@ import CardComponent from "../components/card.js";
 import {render, RenderPosition, replace} from "../utils/render.js";
 
 const bodyElement = document.querySelector(`body`);
-
+const mode = {
+  DEFAULT: `default`,
+  OPENED: `opened`,
+};
 
 export default class MovieController {
-  constructor(container, onDataChange) {
+  constructor(container, onDataChange, onViewChange) {
     this._container = container;
     this._onDataChange = onDataChange;
+    this._onViewChange = onViewChange;
+    this._mode = mode.DEFAULT;
 
     this._cardComponent = null;
     this._movieDetailsPopupComponent = null;
+  }
 
-    // this._onEscKeyDown = this._onEscKeyDown.bind(this);
+  setDefaultView() {
+    if (this._mode === mode.OPENED) {
+      this.closePopup();
+    }
+  }
+
+  closePopup() {
+    bodyElement.removeChild(this._movieDetailsPopupComponent.getElement());
+    this._movieDetailsPopupComponent.removeElement();
+    this._movieDetailsPopupComponent = null;
+    this._mode = mode.DEFAULT;
   }
 
   render(card) {
     const oldCardComponent = this._cardComponent;
     this._cardComponent = new CardComponent(card);
 
-    render(this._container, this._cardComponent, RenderPosition.BEFOREEND);
-
     const openPopup = () => {
       bodyElement.appendChild(this._movieDetailsPopupComponent.getElement());
-    };
-
-    const closePopup = () => {
-      bodyElement.removeChild(this._movieDetailsPopupComponent.getElement());
+      this._mode = mode.OPENED;
     };
 
     const onEscKeyDown = (evt) => {
       const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
       if (isEscKey) {
-        closePopup();
+        this.closePopup();
         document.removeEventListener(`keydown`, onEscKeyDown);
       }
     };
@@ -59,17 +70,21 @@ export default class MovieController {
     this._cardComponent.setClickHandler(() => {
       document.addEventListener(`keydown`, onEscKeyDown);
       this._movieDetailsPopupComponent = new MovieDetailsPopupComponent(card);
+      this._movieDetailsPopupComponent.setWatchedClickHandler(() => {
+        this._onDataChange(this, card, Object.assign({}, card, {
+          isInWatchlist: !card.isInWatchlist,
+        }));
+      });
+      this._onViewChange();
       openPopup();
       document.addEventListener(`keydown`, onEscKeyDown);
       this._movieDetailsPopupComponent.setCloseButtonClickHandler(() => {
-        closePopup();
-        this._movieDetailsPopupComponent.removeElement();
-        this._movieDetailsPopupComponent = null;
+        this.closePopup();
       });
     });
 
     if (oldCardComponent) {
-      replace(this._cardComponent, oldCardComponent);
+      replace(oldCardComponent, this._cardComponent);
     } else {
       render(this._container, this._cardComponent, RenderPosition.BEFOREEND);
     }
