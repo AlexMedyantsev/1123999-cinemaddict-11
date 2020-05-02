@@ -70,11 +70,24 @@ export default class MovieController {
     this._cardComponent.setClickHandler(() => {
       document.addEventListener(`keydown`, onEscKeyDown);
       this._movieDetailsPopupComponent = new MovieDetailsPopupComponent(card);
-      this._movieDetailsPopupComponent.setWatchedClickHandler(() => {
+      this._movieDetailsPopupComponent.setWatchedInPopupClickHandler(() => {
+        this._onDataChange(this, card, Object.assign({}, card, {
+          isInHistory: !card.isInHistory,
+        }));
+      });
+
+      this._movieDetailsPopupComponent.setWatchlistInPopupClickHandler(() => {
         this._onDataChange(this, card, Object.assign({}, card, {
           isInWatchlist: !card.isInWatchlist,
         }));
       });
+
+      this._movieDetailsPopupComponent.setFavoriteInPopupClickHandler(() => {
+        this._onDataChange(this, card, Object.assign({}, card, {
+          isFavorite: !card.isFavorite,
+        }));
+      });
+
       this._onViewChange();
       openPopup();
       document.addEventListener(`keydown`, onEscKeyDown);

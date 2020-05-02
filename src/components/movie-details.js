@@ -5,7 +5,7 @@ const Mode = {
   EDIT: `edit`,
 };
 
-const getFilmDetails = ({title, rating, year, duration, poster, description, comments}, emoji) => {
+const getFilmDetails = ({title, rating, year, duration, poster, description, comments, isFavorite, isInHistory, isInWatchlist}, emoji) => {
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -73,13 +73,13 @@ const getFilmDetails = ({title, rating, year, duration, poster, description, com
           </div>
 
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" ${isInWatchlist ? `checked` : ``} name="watchlist">
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" ${isInHistory ? `checked` : ``} name="watched">
             <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" ${isFavorite ? `checked` : ``} name="favorite">
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
         </div>
@@ -163,8 +163,18 @@ export default class Popup extends AbstractSmartComponent {
     this.setCloseButtonClickHandler(this.closeButtonClickHandler);
   }
 
-  setWatchedClickHandler(handler) {
+  setWatchlistInPopupClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watchlist`).
+      addEventListener(`click`, handler);
+  }
+
+  setWatchedInPopupClickHandler(handler) {
     this.getElement().querySelector(`.film-details__control-label--watched`).
+      addEventListener(`click`, handler);
+  }
+
+  setFavoriteInPopupClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--favorite`).
       addEventListener(`click`, handler);
   }
 
