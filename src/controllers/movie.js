@@ -51,13 +51,13 @@ export default class MovieController {
 
     this._cardComponent.setWatchlistButtonClickHandler(() => {
       this._onDataChange(this, card, Object.assign({}, card, {
-        isInHistory: !card.isInHistory,
+        isInWatchlist: !card.isInWatchlist,
       }));
     });
 
     this._cardComponent.setWatchedButtonClickHandler(() => {
       this._onDataChange(this, card, Object.assign({}, card, {
-        isInWatchlist: !card.isInWatchlist,
+        isInHistory: !card.isInHistory,
       }));
     });
 
