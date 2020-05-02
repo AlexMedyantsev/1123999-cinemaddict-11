@@ -25,20 +25,18 @@ const getRandomDate = () => {
 
 const topRatedFilmsShowed = 2;
 const getTopRated = (array) => {
-  const topRatedFilms = [];
 
-  topRatedFilms.push((array.slice().sort((a, b) => {
+  const topRatedFilms = (array.slice().sort((a, b) => {
     return b.rating - a.rating;
-  }).slice(0, topRatedFilmsShowed)));
+  }).slice(0, topRatedFilmsShowed));
 
   return topRatedFilms;
 };
 
 const topCommentedFilmsShowed = 2;
 const getTopCommented = (array) => {
-  const topCommentedFilms = [];
 
-  topCommentedFilms.push((array.slice().sort((a, b) => {
+  const topCommentedFilms = ((array.slice().sort((a, b) => {
     return b.comments.length - a.comments.length;
   }).slice(0, topCommentedFilmsShowed)));
 

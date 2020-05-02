@@ -15,13 +15,11 @@ let SHOWING_CARDS_COUNT_ON_START = 5;
 let SHOWING_CARDS_COUNT_BY_BUTTON = 5;
 
 const renderExtraCards = (container, sortedCards, title, onDataChange, onViewChange) => {
-  const filmsExtraComponent = new FilmsExtraComponent(title);
+  let filmsExtraComponent = new FilmsExtraComponent(title);
   render(container, filmsExtraComponent, RenderPosition.BEFOREEND);
   const filmsListContainer = filmsExtraComponent.getElement().querySelector(`.films-list__container`);
 
-  sortedCards.forEach((card) => {
-    renderCards(filmsListContainer, card, onDataChange, onViewChange);
-  });
+  return renderCards(filmsListContainer, sortedCards, onDataChange, onViewChange);
 };
 
 const renderCards = (cardListElement, cards, onDataChange, onViewChange) => {
@@ -90,11 +88,13 @@ export default class PageController {
 
 
     const newCards = renderCards(cardListElement, cards.slice(0, this._showingCardsCount), this._onDataChange, this._onViewChange);
-    this._showedMovieControllers = this._showedMovieControllers.concat(newCards);
+    const newExtraCards = renderExtraCards(container, getTopRated(cards), `Top Rated`, this._onDataChange, this._onViewChange);
+    const newExtraCards1 = renderExtraCards(container, getTopCommented(cards), `Most Commented`, this._onDataChange, this._onViewChange);
+    this._showedMovieControllers = this._showedMovieControllers.concat(newCards, newExtraCards, newExtraCards1);
     this._renderLoadMoreButton();
 
-    renderExtraCards(container, getTopRated(cards), `Top Rated`, this._onDataChange, this._onViewChange);
-    renderExtraCards(container, getTopCommented(cards), `Most Commented`, this._onDataChange, this._onViewChange);
+    // renderExtraCards(container, getTopRated(cards), `Top Rated`, this._onDataChange, this._onViewChange);
+    // renderExtraCards(container, getTopCommented(cards), `Most Commented`, this._onDataChange, this._onViewChange);
   }
 
   _renderLoadMoreButton() {
