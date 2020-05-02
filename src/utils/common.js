@@ -23,16 +23,24 @@ const getRandomDate = () => {
   return Date.now() - getRandomIntegerNumber(1000000, 1000000000000);
 };
 
+const topRatedFilmsShowed = 2;
 const getTopRated = (array) => {
-  return (array.sort((a, b) => {
+
+  const topRatedFilms = (array.slice().sort((a, b) => {
     return b.rating - a.rating;
-  }).slice(0, 2));
+  }).slice(0, topRatedFilmsShowed));
+
+  return topRatedFilms;
 };
 
+const topCommentedFilmsShowed = 2;
 const getTopCommented = (array) => {
-  return (array.sort((a, b) => {
+
+  const topCommentedFilms = ((array.slice().sort((a, b) => {
     return b.comments.length - a.comments.length;
-  }).slice(0, 2));
+  }).slice(0, topCommentedFilmsShowed)));
+
+  return topCommentedFilms;
 };
 
 export {getRandomIntegerNumber, getZeroOrOne, getRandomArrayItem, getMockTime, getRandomDate, getTopRated, getTopCommented};
