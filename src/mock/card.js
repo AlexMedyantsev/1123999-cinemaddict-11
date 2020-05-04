@@ -8,6 +8,7 @@ const descriptionItems = [`Lorem ipsum dolor sit amet, consectetur adipiscing el
 
 const generateCard = () => {
   return {
+    id: String(new Date() * Math.random()),
     title: getRandomArrayItem(titleItems),
     rating: getRandomIntegerNumber(5, 10, 1),
     year: getRandomIntegerNumber(1900, 2019),
