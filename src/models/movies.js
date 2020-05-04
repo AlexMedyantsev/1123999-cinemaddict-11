@@ -4,6 +4,7 @@ export default class Movies {
 
     this._dataChangeHandlers = [];
   }
+
   getMovies() {
     return this._cards;
   }
@@ -19,7 +20,7 @@ export default class Movies {
       return false;
     }
 
-    this._tasks = [].concat(this._tasks.slice(0, index) + card + this._tasks.slice(index + 1));
+    this._cards = [].concat(this._cards.slice(0, index) + card + this._cards.slice(index + 1));
 
     this._callHandlers(this._dataChangeHandlers);
 
