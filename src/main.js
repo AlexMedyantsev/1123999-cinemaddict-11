@@ -1,16 +1,21 @@
 import BoardComponent from "./components/board.js";
 import PageController from "./controllers/page.js";
 import MoviesModel from "./models/movies.js";
+import CommentsModel from "./models/comments.js";
 import FooterMoviesComponent from "./components/footer-movies-amount.js";
 import UserRankComponent from "./components/user-rank.js";
 import {generateCards} from "./mock/card.js";
 import {render, RenderPosition} from "./utils/render.js";
 
-let CARDS_COUNT = 25;
+let CARDS_COUNT = 3;
 
 const cards = generateCards(CARDS_COUNT);
 const moviesModel = new MoviesModel();
-moviesModel.setMovies(cards);
+moviesModel.setMovies(cards[0]);
+
+const commentsModel = new CommentsModel();
+commentsModel.setComments(cards[1]);
+
 
 // HEADER
 const siteHeaderElement = document.querySelector(`.header`);
@@ -20,7 +25,7 @@ render(siteHeaderElement, new UserRankComponent(), RenderPosition.BEFOREEND);
 const siteMainElement = document.querySelector(`.main`);
 
 const boardComponent = new BoardComponent();
-const pageController = new PageController(boardComponent, moviesModel);
+const pageController = new PageController(boardComponent, moviesModel, commentsModel);
 
 render(siteMainElement, boardComponent, RenderPosition.BEFOREEND);
 pageController.render(cards);

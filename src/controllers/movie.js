@@ -1,6 +1,6 @@
 import MovieDetailsPopupComponent from "../components/movie-details.js";
 import MovieComponent from "../components/movie.js";
-import {render, RenderPosition, replace} from "../utils/render.js";
+import {render, RenderPosition, remove, replace} from "../utils/render.js";
 
 const bodyElement = document.querySelector(`body`);
 const mode = {
@@ -9,8 +9,9 @@ const mode = {
 };
 
 export default class MovieController {
-  constructor(container, onDataChange, onViewChange) {
+  constructor(container, commentmodel, onDataChange, onViewChange) {
     this._container = container;
+    this._commentModel = commentmodel;
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
     this._mode = mode.DEFAULT;
@@ -30,6 +31,12 @@ export default class MovieController {
     this._movieDetailsPopupComponent.removeElement();
     this._movieDetailsPopupComponent = null;
     this._mode = mode.DEFAULT;
+  }
+
+  getMovieComments(movie) {
+    return movie.comments.map((id) => {
+      return this._commentModel.getCommentById(id);
+    });
   }
 
   render(movie) {
@@ -69,7 +76,21 @@ export default class MovieController {
 
     this._movieComponent.setClickHandler(() => {
       document.addEventListener(`keydown`, onEscKeyDown);
-      this._movieDetailsPopupComponent = new MovieDetailsPopupComponent(movie);
+      const comments = this.getMovieComments(movie);
+      this._movieDetailsPopupComponent = new MovieDetailsPopupComponent(Object.assign({}, movie, {comments}));
+      this._movieDetailsPopupComponent.setDeleteCommentClickHandler((commentId) => {
+        this._commentModel.deleteComment(commentId);
+        this._onDataChange(this, movie, Object.assign({}, movie, {comments: movie.comments.filter((id) => id !== commentId)}));
+        this._movieDetailsPopupComponent.updateLocalState(this.getMovieComments(movie));
+        // this._movieDetailsPopupComponent.rerender();
+      });
+
+      this._movieDetailsPopupComponent.setSubmitCommentOnEnterHandler((newComment) => {
+        this._commentModel.addComment(newComment);
+        this._onDataChange(this, movie, Object.assign({}, movie, {comments: movie.comments.push(newComment.id)}));
+        this._movieDetailsPopupComponent.updateLocalState(this._commentModel.getComments());
+      });
+
       this._movieDetailsPopupComponent.setWatchedInPopupClickHandler(() => {
         this._onDataChange(this, movie, Object.assign({}, movie, {
           isInHistory: !movie.isInHistory,
@@ -101,5 +122,9 @@ export default class MovieController {
     } else {
       render(this._container, this._movieComponent, RenderPosition.BEFOREEND);
     }
+  }
+
+  destroy() {
+    remove(this._movieComponent);
   }
 }

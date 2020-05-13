@@ -4,3 +4,8 @@ export const FilterType = {
   FAVORITES: `Favorites`,
 };
 
+export const KeyCode = {
+  ENTER: 13,
+};
+
+
