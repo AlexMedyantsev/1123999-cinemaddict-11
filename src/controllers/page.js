@@ -14,12 +14,12 @@ const siteMainElement = document.querySelector(`.main`);
 let SHOWING_CARDS_COUNT_ON_START = 5;
 let SHOWING_CARDS_COUNT_BY_BUTTON = 5;
 
-const renderExtraMovies = (container, sortedMovies, title, onDataChange, onViewChange) => {
+const renderExtraMovies = (container, sortedMovies, commentModel, title, onDataChange, onViewChange) => {
   let filmsExtraComponent = new FilmsExtraComponent(title);
   render(container, filmsExtraComponent, RenderPosition.BEFOREEND);
   const filmsListContainer = filmsExtraComponent.getElement().querySelector(`.films-list__container`);
 
-  return renderMovies(filmsListContainer, sortedMovies, onDataChange, onViewChange);
+  return renderMovies(filmsListContainer, sortedMovies, commentModel, onDataChange, onViewChange);
 };
 
 const renderMovies = (movieListElement, movies, commentModel, onDataChange, onViewChange) => {
@@ -108,8 +108,8 @@ export default class PageController {
   _renderExtraMovies(movies) {
     const container = this._container.getElement();
 
-    const newExtraMovies = renderExtraMovies(container, getTopRated(movies), `Top Rated`, this._onDataChange, this._onViewChange);
-    const newExtraMovies1 = renderExtraMovies(container, getTopCommented(movies), `Most Commented`, this._onDataChange, this._onViewChange);
+    const newExtraMovies = renderExtraMovies(container, getTopRated(movies), this._commentModel, `Top Rated`, this._onDataChange, this._onViewChange);
+    const newExtraMovies1 = renderExtraMovies(container, getTopCommented(movies), this._commentModel, `Most Commented`, this._onDataChange, this._onViewChange);
 
     this._showedMovieControllers = this._showedMovieControllers.concat(newExtraMovies, newExtraMovies1);
   }
