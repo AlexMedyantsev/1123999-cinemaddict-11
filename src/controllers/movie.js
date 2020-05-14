@@ -79,16 +79,18 @@ export default class MovieController {
       const comments = this.getMovieComments(movie);
       this._movieDetailsPopupComponent = new MovieDetailsPopupComponent(Object.assign({}, movie, {comments}));
       this._movieDetailsPopupComponent.setDeleteCommentClickHandler((commentId) => {
+        const updatedCommentsList = movie.comments.filter((id) => id !== commentId);
+        this._onDataChange(this, movie, Object.assign({}, movie, {comments: updatedCommentsList}));
         this._commentModel.deleteComment(commentId);
-        this._onDataChange(this, movie, Object.assign({}, movie, {comments: movie.comments.filter((id) => id !== commentId)}));
-        this._movieDetailsPopupComponent.updateLocalState(this.getMovieComments(movie));
-        // this._movieDetailsPopupComponent.rerender();
+        this._movieDetailsPopupComponent.updateLocalState(this.getMovieComments({comments: updatedCommentsList}));
       });
 
       this._movieDetailsPopupComponent.setSubmitCommentOnEnterHandler((newComment) => {
+        const updatedCommentsList = movie.comments;
+        updatedCommentsList.push(newComment.id);
         this._commentModel.addComment(newComment);
-        this._onDataChange(this, movie, Object.assign({}, movie, {comments: movie.comments.push(newComment.id)}));
-        this._movieDetailsPopupComponent.updateLocalState(this._commentModel.getComments());
+        this._onDataChange(this, movie, Object.assign({}, movie, {comments: updatedCommentsList}));
+        this._movieDetailsPopupComponent.updateLocalState(this.getMovieComments({comments: updatedCommentsList}));
       });
 
       this._movieDetailsPopupComponent.setWatchedInPopupClickHandler(() => {

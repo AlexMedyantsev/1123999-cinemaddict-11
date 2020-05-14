@@ -14,7 +14,7 @@ const getFilmDetails = ({title, rating, year, duration, poster, description, isF
         <div class="form-details__top-container">
           <div class="film-details__close">
             <button class="film-details__close-btn" type="button">close</button>
-          </div>w
+          </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
               <img class="film-details__poster-img" src="${poster}" alt="">
@@ -203,7 +203,7 @@ export default class Popup extends AbstractSmartComponent {
     this._submitCommentOnEnterHandler = handler;
     this.getElement().querySelector(`.film-details__comment-input`).
       addEventListener(`keydown`, (evt) => {
-        if (evt.keyCode === KeyCode.ENTER && this.emoji && this.commentText) {
+        if (evt.keyCode === KeyCode.ENTER && (evt.metaKey || KeyboardEvent.ctrlKey) && this.emoji && this.commentText) {
           const id = (Date.now() + Math.random() + ``);
           const newComment = {
             id,
@@ -231,7 +231,7 @@ export default class Popup extends AbstractSmartComponent {
       addEventListener(`change`, setEmojiClickHandler);
 
     this.getElement().querySelector(`.film-details__comment-input`).
-      addEventListener(`keydown`, setCommentChangeHandler);
+      addEventListener(`keyup`, setCommentChangeHandler);
   }
 
   getTemplate() {
