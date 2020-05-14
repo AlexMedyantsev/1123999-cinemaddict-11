@@ -194,27 +194,27 @@ export default class Popup extends AbstractSmartComponent {
     this.getElement().querySelector(`.film-details__comments-list`).
       addEventListener(`click`, (evt) => {
         evt.preventDefault();
-        // this._comments = this._comments.filter((comment) => comment.id !== evt.target.id);
         handler(evt.target.id);
       });
   }
 
   setSubmitCommentOnEnterHandler(handler) {
     this._submitCommentOnEnterHandler = handler;
-    this.getElement().querySelector(`.film-details__comment-input`).
-      addEventListener(`keydown`, (evt) => {
-        if (evt.keyCode === KeyCode.ENTER && (evt.metaKey || KeyboardEvent.ctrlKey) && this.emoji && this.commentText) {
-          const id = (Date.now() + Math.random() + ``);
-          const newComment = {
-            id,
-            text: encode(this.commentText),
-            author: `Me`,
-            emoji: this.emoji,
-            date: Date.now(),
-          };
-          handler(newComment);
-        }
-      });
+    const commentInput = this.getElement().querySelector(`.film-details__comment-input`);
+    commentInput.addEventListener(`keydown`, (evt) => {
+      if (evt.keyCode === KeyCode.ENTER && (evt.metaKey || KeyboardEvent.ctrlKey) && this.emoji && this.commentText) {
+        const id = (Date.now() + Math.random() + ``);
+        const newComment = {
+          id,
+          text: encode(this.commentText),
+          author: `Me`,
+          emoji: this.emoji,
+          date: Date.now(),
+        };
+        handler(newComment);
+        commentInput.value = ``;
+      }
+    });
   }
 
   _subscribeOnEvents() {
