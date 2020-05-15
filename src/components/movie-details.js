@@ -211,8 +211,8 @@ export default class Popup extends AbstractSmartComponent {
           emoji: this.emoji,
           date: Date.now(),
         };
+        this.commentText = ``;
         handler(newComment);
-        commentInput.value = ``;
       }
     });
   }
