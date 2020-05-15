@@ -16,6 +16,7 @@ export default class MovieController {
     this._onViewChange = onViewChange;
     this._mode = mode.DEFAULT;
 
+    this._movie = null;
     this._movieComponent = null;
     this._movieDetailsPopupComponent = null;
   }
@@ -40,6 +41,7 @@ export default class MovieController {
   }
 
   render(movie) {
+    this._movie = movie;
     const oldMovieComponent = this._movieComponent;
     this._movieComponent = new MovieComponent(movie);
 
@@ -57,57 +59,57 @@ export default class MovieController {
     };
 
     this._movieComponent.setWatchlistButtonClickHandler(() => {
-      this._onDataChange(this, movie, Object.assign({}, movie, {
-        isInWatchlist: !movie.isInWatchlist,
+      this._onDataChange(this, this._movie, Object.assign({}, this._movie, {
+        isInWatchlist: !this._movie.isInWatchlist,
       }));
     });
 
     this._movieComponent.setWatchedButtonClickHandler(() => {
-      this._onDataChange(this, movie, Object.assign({}, movie, {
-        isInHistory: !movie.isInHistory,
+      this._onDataChange(this, this._movie, Object.assign({}, this._movie, {
+        isInHistory: !this._movie.isInHistory,
       }));
     });
 
     this._movieComponent.setFavoriteButtonClickHandler(() => {
-      this._onDataChange(this, movie, Object.assign({}, movie, {
-        isFavorite: !movie.isFavorite,
+      this._onDataChange(this, this._movie, Object.assign({}, this._movie, {
+        isFavorite: !this._movie.isFavorite,
       }));
     });
 
     this._movieComponent.setClickHandler(() => {
       document.addEventListener(`keydown`, onEscKeyDown);
-      const comments = this.getMovieComments(movie);
-      this._movieDetailsPopupComponent = new MovieDetailsPopupComponent(Object.assign({}, movie, {comments}));
+      const comments = this.getMovieComments(this._movie);
+      this._movieDetailsPopupComponent = new MovieDetailsPopupComponent(Object.assign({}, this._movie, {comments}));
       this._movieDetailsPopupComponent.setDeleteCommentClickHandler((commentId) => {
-        const updatedCommentsList = movie.comments.filter((id) => id !== commentId);
-        this._onDataChange(this, movie, Object.assign({}, movie, {comments: updatedCommentsList}));
+        const updatedCommentsList = this._movie.comments.filter((id) => id !== commentId);
+        this._onDataChange(this, this._movie, Object.assign({}, this._movie, {comments: updatedCommentsList}));
         this._commentModel.deleteComment(commentId);
         this._movieDetailsPopupComponent.updateLocalState(this.getMovieComments({comments: updatedCommentsList}));
       });
 
       this._movieDetailsPopupComponent.setSubmitCommentOnEnterHandler((newComment) => {
-        const updatedCommentsList = movie.comments;
+        const updatedCommentsList = this._movie.comments;
         updatedCommentsList.push(newComment.id);
         this._commentModel.addComment(newComment);
-        this._onDataChange(this, movie, Object.assign({}, movie, {comments: updatedCommentsList}));
+        this._onDataChange(this, this._movie, Object.assign({}, this._movie, {comments: updatedCommentsList}));
         this._movieDetailsPopupComponent.updateLocalState(this.getMovieComments({comments: updatedCommentsList}));
       });
 
       this._movieDetailsPopupComponent.setWatchedInPopupClickHandler(() => {
-        this._onDataChange(this, movie, Object.assign({}, movie, {
-          isInHistory: !movie.isInHistory,
+        this._onDataChange(this, this._movie, Object.assign({}, this._movie, {
+          isInHistory: !this._movie.isInHistory,
         }));
       });
 
       this._movieDetailsPopupComponent.setWatchlistInPopupClickHandler(() => {
-        this._onDataChange(this, movie, Object.assign({}, movie, {
-          isInWatchlist: !movie.isInWatchlist,
+        this._onDataChange(this, this._movie, Object.assign({}, this._movie, {
+          isInWatchlist: !this._movie.isInWatchlist,
         }));
       });
 
       this._movieDetailsPopupComponent.setFavoriteInPopupClickHandler(() => {
-        this._onDataChange(this, movie, Object.assign({}, movie, {
-          isFavorite: !movie.isFavorite,
+        this._onDataChange(this, this._movie, Object.assign({}, this._movie, {
+          isFavorite: !this._movie.isFavorite,
         }));
       });
 
