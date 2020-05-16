@@ -2,7 +2,7 @@ import SortingComponent, {SortType} from "../components/sorting.js";
 import NoMoviesComponent from "../components/no-movies.js";
 import MovieController from "./movie.js";
 import CardComponent from "../components/movie.js";
-// import FilterComponent from "../components/filter.js";
+import FilterComponent from "../components/filter.js";
 import FilterController from "../controllers/filter.js";
 import FilmsExtraComponent from "../components/films-extra.js";
 import LoadMoreButtonComponent from "../components/load-more-button.js";
@@ -79,10 +79,16 @@ export default class PageController {
     this._sortingComponent.setSortTypeChangeHandler(this._onSortTypeChange);
   }
 
+  show() {
+    this._container.show();
+  }
+
+  hide() {
+    this._container.hide();
+  }
+
   render() {
     const movies = this._moviesModel.getMovies();
-    render(siteMainElement, this._sortingComponent, RenderPosition.AFTERBEGIN);
-    this._filterController.render();
 
     this._sortedMovies = movies.slice();
 

@@ -4,6 +4,11 @@ export const FilterType = {
   FAVORITES: `Favorites`,
 };
 
+export const MenuMode = {
+  STATISTICS: `stats`,
+  FILTERS: `filter`,
+};
+
 export const KeyCode = {
   ENTER: 13,
 };

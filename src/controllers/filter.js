@@ -2,11 +2,13 @@ import FilterComponent from "../components/filter.js";
 import {FilterType} from "../const.js";
 import {render, replace, RenderPosition} from "../utils/render.js";
 import {getMoviesByFilter} from "../utils/filter.js";
+import {MenuMode} from "../const.js";
 
 export default class FilterController {
   constructor(container, moviesModel) {
     this._container = container;
     this._moviesModel = moviesModel;
+    this._menuItemActive = MenuMode.FILTERS;
 
     this._filterComponent = null;
 
@@ -38,9 +40,20 @@ export default class FilterController {
 
   _onFilterChange(filterType) {
     this._moviesModel.setFilter(filterType);
+    this._menuItemActive = filterType;
+    this.setOnMenuChange(this._handler);
   }
 
   _onDataChange() {
     this._render();
+  }
+
+  setOnMenuChange(handler) {
+    this._handler = handler;
+    if (this._menuItemActive === MenuMode.STATISTICS) {
+      handler(MenuMode.STATISTICS);
+    } else {
+      handler(MenuMode.FILTERS);
+    }
   }
 }
