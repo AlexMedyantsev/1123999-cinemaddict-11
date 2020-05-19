@@ -5,12 +5,12 @@ import CommentsModel from "./models/comments.js";
 import FooterMoviesComponent from "./components/footer-movies-amount.js";
 import {MenuMode} from "./const.js";
 import FilterController from "./controllers/filter.js";
-import StatisticsComponent from "./components/statistics.js";
+import StatisticController from "./controllers/statistics.js";
 import UserRankComponent from "./components/user-rank.js";
 import {generateCards} from "./mock/card.js";
 import {render, RenderPosition} from "./utils/render.js";
 
-let CARDS_COUNT = 3;
+let CARDS_COUNT = 30;
 
 const cards = generateCards(CARDS_COUNT);
 const moviesModel = new MoviesModel();
@@ -26,26 +26,29 @@ render(siteHeaderElement, new UserRankComponent(), RenderPosition.BEFOREEND);
 
 // MAIN
 const siteMainElement = document.querySelector(`.main`);
-
 const boardComponent = new BoardComponent();
+
 const filterController = new FilterController(siteMainElement, moviesModel);
 filterController.render();
-const statisticsComponent = new StatisticsComponent();
-const pageController = new PageController(boardComponent, moviesModel, commentsModel);
 
+const statisticController = new StatisticController(siteMainElement, moviesModel);
+statisticController.render();
+
+const pageController = new PageController(boardComponent, moviesModel, commentsModel);
 render(siteMainElement, boardComponent, RenderPosition.BEFOREEND);
-render(siteMainElement, statisticsComponent, RenderPosition.BEFOREEND);
-statisticsComponent.hide();
+
+// render(siteMainElement, statisticController, RenderPosition.BEFOREEND);
+statisticController.hide();
 
 filterController.setOnMenuChange((menuItem) => {
   switch (menuItem) {
     case MenuMode.STATISTICS:
       pageController.hide();
-      statisticsComponent.show();
+      statisticController.show();
       break;
     case MenuMode.FILTERS:
       pageController.show();
-      statisticsComponent.hide();
+      statisticController.hide();
       break;
   }
 });

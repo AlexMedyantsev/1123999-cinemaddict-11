@@ -1,24 +1,19 @@
-const filterNames = [`Watchlist`, `History`, `Favorites`];
+import {FilterChartType} from '../const';
+import moment from 'moment';
 
-const generateFilters = (cards) => {
-  return filterNames.map((name) => {
-    return {
-      name,
-      count: getFilterCount(name, cards),
-    };
-  });
-};
-
-const getFilterCount = (name, cards) => {
-  switch (name) {
-    case `Favorites`:
-      return cards.filter((card) => card.isFavorite).length;
-    case `History`:
-      return cards.filter((card) => card.isInHistory).length;
-    case `Watchlist`:
-      return cards.filter((card) => card.isInWatchlist).length;
-    default: return 0;
+export const getCardsByChartFilter = (cards, filter) => {
+  switch (filter) {
+    case FilterChartType.ALL:
+      return cards;
+    case FilterChartType.TODAY:
+      return cards.filter((card) => moment().diff(card.watchingDate, `days`) === 0);
+    case FilterChartType.WEEK:
+      return cards.filter((card) => moment().diff(card.watchingDate, `days`) <= 0);
+    case FilterChartType.MONTH:
+      return cards.filter((card) => moment().diff(card.watchingDate, `days`) <= 31);
+    case FilterChartType.YEAR:
+      return cards.filter((card) => moment().diff(card.watchingDate, `days`) <= 364);
   }
-};
 
-export {generateFilters};
+  return cards;
+};
