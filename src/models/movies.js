@@ -14,6 +14,10 @@ export default class Movies {
     return getMoviesByFilter(this._movies, this._activeFilterType);
   }
 
+  getMoviesAll() {
+    return this._movies;
+  }
+
   setMovies(movies) {
     this._movies = Array.from(movies);
     this._callHandlers(this._dataChangeHandlers);
@@ -43,7 +47,7 @@ export default class Movies {
   }
 
   setDataChangeHandler(handler) {
-    this.dataChangeHandler.push(handler);
+    this._dataChangeHandlers.push(handler);
   }
 
   _callHandlers(handlers) {

@@ -1,4 +1,10 @@
 import AbstractComponent from "./abstract-component.js";
+import {MenuMode} from "../const.js";
+
+export const MenuItem = {
+  STATISTICS: `control__statistic`,
+  MOVIES: `control__task`,
+};
 
 const createFilterMarkup = (filter) => {
   const {name, count} = filter;
@@ -18,7 +24,7 @@ export const createFilterTemplate = (filters) => {
        <a href="#All" class="main-navigation__item main-navigation__item--active" id="filter__All">All Movies</a>
          ${filtersMarkup}
        </div>
-       <a href="#stats" class="main-navigation__additional">Stats</a>
+       <a href="#stats" class="main-navigation__additional" id="filter__${MenuMode.STATISTICS}">Stats</a>
     </nav>`
   );
 };

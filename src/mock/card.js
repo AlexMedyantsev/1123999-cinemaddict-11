@@ -1,4 +1,4 @@
-import {getRandomArrayItem, getZeroOrOne, getRandomIntegerNumber, getMockTime} from "../utils/common.js";
+import {getRandomArrayItem, getZeroOrOne, getRandomIntegerNumber} from "../utils/common.js";
 import {generateCommentList} from "./comments.js";
 
 const titleItems = [`Interstellar`, `Inception`, `Prestige`, `Forrest Gump`, `Godfather`, `Once in America`, `The Shawshank Redemption`];
@@ -12,7 +12,7 @@ const generateCard = (commentsArray) => {
     title: getRandomArrayItem(titleItems),
     rating: getRandomIntegerNumber(5, 10, 1),
     year: getRandomIntegerNumber(1900, 2019),
-    duration: getMockTime(),
+    duration: getRandomIntegerNumber(300, 520),
     genre: getRandomArrayItem(genreItems),
     poster: getRandomArrayItem(posterItems),
     description: getRandomArrayItem(descriptionItems),
@@ -20,6 +20,7 @@ const generateCard = (commentsArray) => {
     isFavorite: getZeroOrOne(),
     isInWatchlist: getZeroOrOne(),
     isInHistory: getZeroOrOne(),
+    watchingDate: `2020-05-19T16:12:32.554Z`,
   };
 };
 

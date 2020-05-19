@@ -1,4 +1,5 @@
-import {FilterType} from "../const.js";
+import {FilterType, FilterChartType} from "../const.js";
+import moment from "moment";
 
 export const getMoviesByFilter = (movies, filter) => {
   switch (filter) {
@@ -10,4 +11,21 @@ export const getMoviesByFilter = (movies, filter) => {
       return movies.filter((movie) => movie.isFavorite);
     default: return movies;
   }
+};
+
+export const getMoviesByChartFilter = (movies, filterType) => {
+  switch (filterType) {
+    case FilterChartType.ALL:
+      return movies;
+    case FilterChartType.TODAY:
+      return movies.filter((movie) => moment().diff(movie.watchingDate, `days`) === 0);
+    case FilterChartType.WEEK:
+      return movies.filter((movie) => moment().diff(movie.watchingDate, `days`) <= 0);
+    case FilterChartType.MONTH:
+      return movies.filter((movie) => moment().diff(movie.watchingDate, `days`) <= 31);
+    case FilterChartType.YEAR:
+      return movies.filter((movie) => moment().diff(movie.watchingDate, `days`) <= 364);
+  }
+
+  return movies;
 };

@@ -1,5 +1,7 @@
-const getRandomIntegerNumber = (min, max, afterCommaNumbers = 0) => {
-  return (Math.random() * (max - min) + min).toFixed(afterCommaNumbers);
+import moment from "moment";
+
+const getRandomIntegerNumber = (min, max) => {
+  return Math.floor((Math.random() * (max - min) + min));
 };
 
 const getZeroOrOne = () => {
@@ -13,14 +15,16 @@ const getRandomArrayItem = (array) => {
 };
 
 const getMockTime = () => {
-  const hours = getRandomIntegerNumber(1, 3);
-  const minutes = getRandomIntegerNumber(1, 59);
-
-  return (`${hours}h ${minutes}m`);
+  return 10;
 };
 
 const getRandomDate = () => {
-  return Date.now() - getRandomIntegerNumber(1000000, 1000000000000);
+  // return Date.now() - getRandomIntegerNumber(1000000, 1000000000000);
+  return moment();
+};
+
+const generateRandomDate = () => {
+  return Math.random() * moment().format(`LL`);
 };
 
 const topRatedFilmsShowed = 2;
@@ -43,4 +47,6 @@ const getTopCommented = (array) => {
   return topCommentedFilms;
 };
 
-export {getRandomIntegerNumber, getZeroOrOne, getRandomArrayItem, getMockTime, getRandomDate, getTopRated, getTopCommented};
+const getPropertyCount = (array, property) => array.filter((element) => element[property]).length;
+
+export {getRandomIntegerNumber, generateRandomDate, getPropertyCount, getZeroOrOne, getRandomArrayItem, getMockTime, getRandomDate, getTopRated, getTopCommented};
