@@ -1,4 +1,7 @@
 import moment from "moment";
+import momentDurationFormatSetup from 'moment-duration-format';
+import {TimeToken} from "../const";
+momentDurationFormatSetup(moment);
 
 export const getRandomIntegerNumber = (min, max) => {
   return Math.floor((Math.random() * (max - min) + min));
@@ -51,6 +54,20 @@ export const getProfileRating = (countWatched) => {
     return ProfileRank.MOVIE_BUFF;
   }
   return ``;
+};
+
+export const getFormattedTime = (date, timeToken) => {
+  return moment(date).format(timeToken);
+};
+
+export const getFilmDuration = (movieDuration) => {
+  return moment.duration(movieDuration, `minutes`).format(TimeToken.TIME);
+};
+
+export const getLimitString = (string, maxLength, lastSymbol = `...`) => {
+  return string.length > maxLength
+    ? string.substr(0, maxLength - lastSymbol.length) + lastSymbol
+    : string;
 };
 
 const topRatedFilmsShowed = 2;
