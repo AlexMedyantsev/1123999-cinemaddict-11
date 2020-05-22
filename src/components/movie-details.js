@@ -7,6 +7,8 @@ const Mode = {
   EDIT: `edit`,
 };
 
+const BLOCK_CLASS = `disabled`;
+
 const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, actors, director, writers, duration, poster, description, country, isFavorite, isInHistory, isInWatchlist}, {emoji, comments, commentText}) => {
   return (
     `<section class="film-details">
@@ -174,6 +176,14 @@ export default class Popup extends AbstractSmartComponent {
     this.rerender();
   }
 
+  blockForm() {
+    this.getElement().querySelector(`.film-details__comment-input`).setAttribute.disabled = true;
+  }
+
+  unblockForm() {
+    this.getElement().querySelector(`.film-details__comment-input`).setAttribute.disabled = false;
+  }
+
   recoveryListeners() {
     this._subscribeOnEvents();
     this.setCloseButtonClickHandler(this.closeButtonClickHandler);
@@ -210,20 +220,16 @@ export default class Popup extends AbstractSmartComponent {
     const commentInput = this.getElement().querySelector(`.film-details__comment-input`);
     commentInput.addEventListener(`keydown`, (evt) => {
       if (evt.keyCode === KeyCode.ENTER && (evt.metaKey || KeyboardEvent.ctrlKey) && this.emoji && this.commentText) {
-        const id = (Date.now() + Math.random() + ``);
         const newComment = {
-          id,
-          text: encode(this.commentText),
-          author: `Me`,
-          emoji: this.emoji,
-          date: Date.now(),
+          comment: encode(this.commentText),
+          emotion: this.emoji,
+          date: new Date(),
         };
         this.commentText = ``;
         handler(newComment);
       }
     });
   }
-
   _subscribeOnEvents() {
     const setEmojiClickHandler = (event) => {
       this.emoji = event.target.value;

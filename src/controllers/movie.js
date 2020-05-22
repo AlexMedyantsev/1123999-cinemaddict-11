@@ -2,6 +2,8 @@ import MovieDetailsPopupComponent from "../components/movie-details.js";
 import Movie from "../models/movie.js";
 import MovieComponent from "../components/movie.js";
 import {render, RenderPosition, remove, replace} from "../utils/render.js";
+import Comment from "../models/comment.js";
+import CommentModel from "../models/comments.js";
 
 const bodyElement = document.querySelector(`body`);
 const mode = {
@@ -12,7 +14,7 @@ const mode = {
 export default class MovieController {
   constructor(container, commentmodel, onDataChange, onViewChange, api) {
     this._container = container;
-    this._commentModel = commentmodel;
+    this._commentModel = new CommentModel();
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
     this._mode = mode.DEFAULT;
@@ -36,11 +38,11 @@ export default class MovieController {
     this._mode = mode.DEFAULT;
   }
 
-  getMovieComments(movie) {
-    return movie.comments.map((id) => {
-      return this._commentModel.getCommentById(id);
-    });
-  }
+  // getMovieComments(movie) {
+  //   return movie.comments.map((id) => {
+  //     return this._commentModel.getCommentById(id);
+  //   });
+  // }
 
   render(movie) {
     this._movie = movie;
@@ -80,23 +82,30 @@ export default class MovieController {
 
     this._movieComponent.setClickHandler(() => {
       document.addEventListener(`keydown`, onEscKeyDown);
-      // const comments = this.getMovieComments(this._movie);
       this._api.getComments(this._movie.id)
         .then((comments) => {
+          this._commentModel.setComments(comments);
           this._movieDetailsPopupComponent = new MovieDetailsPopupComponent(Object.assign({}, this._movie, {comments}));
           this._movieDetailsPopupComponent.setDeleteCommentClickHandler((commentId) => {
-            const updatedCommentsList = this._movie.comments.filter((id) => id !== commentId);
-            this._onDataChange(this, this._movie, Object.assign({}, this._movie, {comments: updatedCommentsList}));
-            this._commentModel.deleteComment(commentId);
-            this._movieDetailsPopupComponent.updateLocalState(this.getMovieComments({comments: updatedCommentsList}));
+            this._api.deleteComment(commentId)
+              // eslint-disable-next-line max-nested-callbacks
+              .then((response) => {
+                console.log(response);
+                this._commentModel.deleteComment(commentId);
+                this._movieDetailsPopupComponent.updateLocalState(this._commentModel.getComments());
+              });
           });
 
           this._movieDetailsPopupComponent.setSubmitCommentOnEnterHandler((newComment) => {
-            const updatedCommentsList = this._movie.comments;
-            updatedCommentsList.push(newComment.id);
-            this._commentModel.addComment(newComment);
-            this._onDataChange(this, this._movie, Object.assign({}, this._movie, {comments: updatedCommentsList}));
-            this._movieDetailsPopupComponent.updateLocalState(this.getMovieComments({comments: updatedCommentsList}));
+            this._movieDetailsPopupComponent.blockForm();
+            this._api.createComment(this._movie.id, Comment.cloneData(newComment))
+              // eslint-disable-next-line max-nested-callbacks
+              .then((response) => {
+                const newComments = Comment.parseComments(response.comments);
+                this._commentModel.setComments(newComments);
+                this._movieDetailsPopupComponent.updateLocalState(newComments);
+                this._movieDetailsPopupComponent.unBlockForm();
+              });
           });
 
           this._movieDetailsPopupComponent.setWatchedInPopupClickHandler(() => {

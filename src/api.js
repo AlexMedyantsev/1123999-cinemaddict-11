@@ -52,12 +52,7 @@ export default class API {
       method: Method.POST,
       body: JSON.stringify(data),
       headers: new Headers({'Content-Type': `application/json`})})
-        .then((response) => response.json())
-        .then((movie) => {
-          const oneMovie = Movie.parseMovie(movie.movie);
-          oneMovie.comments = Comment.parseComments(movie.comments);
-          return oneMovie;
-        });
+        .then((response) => response.json());
   }
 
   deleteComment(commentId) {

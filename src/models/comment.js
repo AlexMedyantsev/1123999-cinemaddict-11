@@ -1,5 +1,3 @@
-import moment from "moment";
-
 export default class Comment {
   constructor(data) {
     this.id = data.id;
@@ -11,7 +9,9 @@ export default class Comment {
 
   toRAW() {
     return {
-
+      comment: this.text,
+      date: this.date,
+      emotion: this.emoji,
     };
   }
 
@@ -24,6 +24,6 @@ export default class Comment {
   }
 
   static cloneData(data) {
-    return new Movie(data.toRAW());
+    return new Comment(data).toRAW();
   }
 }
