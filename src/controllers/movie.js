@@ -100,21 +100,21 @@ export default class MovieController {
           });
 
           this._movieDetailsPopupComponent.setWatchedInPopupClickHandler(() => {
-            this._onDataChange(this, this._movie, Object.assign({}, this._movie, {
-              isWatched: !this._movie.isWatched,
-            }));
+            const newMovie = Movie.cloneData(this._movie);
+            newMovie.isWatched = !newMovie.isWatched;
+            this._onDataChange(this, this._movie, newMovie);
           });
 
           this._movieDetailsPopupComponent.setWatchlistInPopupClickHandler(() => {
-            this._onDataChange(this, this._movie, Object.assign({}, this._movie, {
-              isInWatchlist: !this._movie.isInWatchlist,
-            }));
+            const newMovie = Movie.cloneData(this._movie);
+            newMovie.isInWatchlist = !newMovie.isInWatchlist;
+            this._onDataChange(this, this._movie, newMovie);
           });
 
           this._movieDetailsPopupComponent.setFavoriteInPopupClickHandler(() => {
-            this._onDataChange(this, this._movie, Object.assign({}, this._movie, {
-              isFavorite: !this._movie.isFavorite,
-            }));
+            const newMovie = Movie.cloneData(this._movie);
+            newMovie.isFavorite = !newMovie.isFavorite;
+            this._onDataChange(this, this._movie, newMovie);
           });
 
           this._onViewChange();
