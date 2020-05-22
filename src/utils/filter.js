@@ -6,7 +6,7 @@ export const getMoviesByFilter = (movies, filter) => {
     case FilterType.WATCHLIST:
       return movies.filter((movie) => movie.isInWatchlist);
     case FilterType.HISTORY:
-      return movies.filter((movie) => movie.isInHistory);
+      return movies.filter((movie) => movie.isWatched);
     case FilterType.FAVORITES:
       return movies.filter((movie) => movie.isFavorite);
     default: return movies;

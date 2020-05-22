@@ -7,7 +7,7 @@ const Mode = {
   EDIT: `edit`,
 };
 
-const getFilmDetails = ({title, rating, year, duration, poster, description, isFavorite, isInHistory, isInWatchlist}, {emoji, comments, commentText}) => {
+const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, actors, director, writers, duration, poster, description, country, isFavorite, isInHistory, isInWatchlist}, {emoji, comments, commentText}) => {
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -26,30 +26,32 @@ const getFilmDetails = ({title, rating, year, duration, poster, description, isF
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
                   <h3 class="film-details__title">${title}</h3>
-                  <p class="film-details__title-original">Original: The Great Flamarion</p>
+                  <p class="film-details__title-original">${alternativeTitle}</p>
                 </div>
 
                 <div class="film-details__rating">
-                  <p class="film-details__total-rating">${rating}</p>
+                  <p class="film-details__total-rating">
+                  ${rate}
+                  </p>
                 </div>
               </div>
 
               <table class="film-details__table">
                 <tr class="film-details__row">
                   <td class="film-details__term">Director</td>
-                  <td class="film-details__cell">Anthony Mann</td>
+                  <td class="film-details__cell">${director}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Writers</td>
-                  <td class="film-details__cell">Anne Wigton, Heinz Herald, Richard Weil</td>
+                  <td class="film-details__cell">${writers}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Actors</td>
-                  <td class="film-details__cell">Erich von Stroheim, Mary Beth Hughes, Dan Duryea</td>
+                  <td class="film-details__cell">${actors}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${year}</td>
+                  <td class="film-details__cell">${releaseDate}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
@@ -57,14 +59,12 @@ const getFilmDetails = ({title, rating, year, duration, poster, description, isF
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
-                  <td class="film-details__cell">USA</td>
+                  <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Genres</td>
                   <td class="film-details__cell">
-                    <span class="film-details__genre">Drama</span>
-                    <span class="film-details__genre">Film-Noir</span>
-                    <span class="film-details__genre">Mystery</span></td>
+                    ${createGenreTemplate(genres)}
                 </tr>
               </table>
 
@@ -132,6 +132,13 @@ const getFilmDetails = ({title, rating, year, duration, poster, description, isF
 const renderEmoji = (emoji) => {
   return emoji ? `<img src="./images/emoji/${emoji}.png" width="55" height="55" alt="emoji"></img>` : ``;
 };
+const createGenreTemplate = (genres) => {
+  return genres.map((genre) => {
+    return (
+      `<span class="film-details__genre">${genre}</span>`
+    )
+  })
+}
 
 const createCommentTemplate = (comments) => {
   return comments.map((item) => {

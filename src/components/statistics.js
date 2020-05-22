@@ -19,15 +19,18 @@ const getTotalDuration = (movies) => {
   return moment.duration(movies.reduce((acc, movie) => acc + movie.duration, 0), `minutes`);
 };
 
-const getWatchedMovies = (movies) => movies.filter((movie) => movie.isInHistory);
+const getWatchedMovies = (movies) => movies.filter((movie) => movie.isWatched);
 
 const getTopGenre = (movies) => {
   const uniqueGenres = getUniqueGenres(movies); // уникальные жанры
   const genresCount = getElementCount(movies); // количество каждого жанра
   const maxCount = Math.max(...genresCount);
   const index = genresCount.findIndex((num) => maxCount === num);
-
-  return uniqueGenres[index];
+  if (uniqueGenres === 0) {
+    return `No data`;
+  } else {
+    return uniqueGenres[index];
+  }
 };
 
 const getElementCount = (movies) => {
@@ -42,7 +45,7 @@ const getElementCount = (movies) => {
 const getStatisticsTemplate = (movies, filterType) => {
   const totalDuration = getTotalDuration(movies);
   return (
-    `</div><section class="statistic">
+    `<section class="statistic">
     <p class="statistic__rank">
       Your rank
       <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
@@ -71,7 +74,7 @@ const getStatisticsTemplate = (movies, filterType) => {
     <ul class="statistic__text-list">
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">You watched</h4>
-        <p class="statistic__item-text">${getPropertyCount(movies, `isInHistory`)}<span class="statistic__item-description">movies</span></p>
+        <p class="statistic__item-text">${getPropertyCount(movies, `isWatched`)}<span class="statistic__item-description">movies</span></p>
       </li>
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">Total duration</h4>
@@ -87,7 +90,7 @@ const getStatisticsTemplate = (movies, filterType) => {
       <canvas class="statistic__chart" width="1000"></canvas>
     </div>
 
-  </section></div>`
+  </section>`
   );
 };
 
