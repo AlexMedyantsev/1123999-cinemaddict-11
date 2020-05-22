@@ -1,34 +1,60 @@
 import moment from "moment";
 
-const getRandomIntegerNumber = (min, max) => {
+export const getRandomIntegerNumber = (min, max) => {
   return Math.floor((Math.random() * (max - min) + min));
 };
 
-const getZeroOrOne = () => {
+export const getZeroOrOne = () => {
   return Math.random() > 0.5;
 };
 
-const getRandomArrayItem = (array) => {
+export const getRandomArrayItem = (array) => {
   const randomIndex = (getRandomIntegerNumber(0, array.length - 1));
 
   return array[randomIndex];
 };
 
-const getMockTime = () => {
+export const getMockTime = () => {
   return 10;
 };
 
-const getRandomDate = () => {
+export const getRandomDate = () => {
   // return Date.now() - getRandomIntegerNumber(1000000, 1000000000000);
   return moment();
 };
 
-const generateRandomDate = () => {
+export const generateRandomDate = () => {
   return Math.random() * moment().format(`LL`);
 };
 
+// 0 — звание не отображается;
+// от 1 до 10 — novice;
+// от 11 до 20 — fan;
+// от 21 и выше — movie buff;
+const NumberMoviesWatched = {
+  NOVICE: 10,
+  FAN: 20
+};
+
+const ProfileRank = {
+  NOVICE: `novice`,
+  FAN: `fan`,
+  MOVIE_BUFF: `movie buff`
+};
+
+export const getProfileRating = (countWatched) => {
+  if (countWatched <= NumberMoviesWatched.NOVICE) {
+    return ProfileRank.NOVICE;
+  } else if (countWatched <= NumberMoviesWatched.FAN) {
+    return ProfileRank.FAN;
+  } else if (countWatched > NumberMoviesWatched.FAN) {
+    return ProfileRank.MOVIE_BUFF;
+  }
+  return ``;
+};
+
 const topRatedFilmsShowed = 2;
-const getTopRated = (array) => {
+export const getTopRated = (array) => {
 
   const topRatedFilms = (array.slice().sort((a, b) => {
     return b.rating - a.rating;
@@ -37,8 +63,8 @@ const getTopRated = (array) => {
   return topRatedFilms;
 };
 
-const topCommentedFilmsShowed = 2;
-const getTopCommented = (array) => {
+export const topCommentedFilmsShowed = 2;
+export const getTopCommented = (array) => {
 
   const topCommentedFilms = ((array.slice().sort((a, b) => {
     return b.comments.length - a.comments.length;
@@ -47,6 +73,4 @@ const getTopCommented = (array) => {
   return topCommentedFilms;
 };
 
-const getPropertyCount = (array, property) => array.filter((element) => element[property]).length;
-
-export {getRandomIntegerNumber, generateRandomDate, getPropertyCount, getZeroOrOne, getRandomArrayItem, getMockTime, getRandomDate, getTopRated, getTopCommented};
+export const getPropertyCount = (array, property) => array.filter((element) => element[property]).length;

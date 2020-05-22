@@ -1,6 +1,7 @@
 import SortingComponent, {SortType} from "../components/sorting.js";
 import NoMoviesComponent from "../components/no-movies.js";
 import MovieController from "./movie.js";
+import UserRankComponent from '../components/user-rank.js';
 import CardComponent from "../components/movie.js";
 import FilterController from "../controllers/filter.js";
 import FilmsExtraComponent from "../components/films-extra.js";
@@ -9,6 +10,7 @@ import {render, remove, RenderPosition} from "../utils/render.js";
 import {getTopRated, getTopCommented} from "../utils/common.js";
 
 const siteMainElement = document.querySelector(`.main`);
+const siteHeaderElement = document.querySelector(`.header`);
 
 let SHOWING_CARDS_COUNT_ON_START = 5;
 let SHOWING_CARDS_COUNT_BY_BUTTON = 5;
@@ -91,7 +93,9 @@ export default class PageController {
     const movies = this._moviesModel.getMovies();
 
     this._sortedMovies = movies.slice();
-
+    this._userRankComponent = new UserRankComponent(movies);
+    render(siteHeaderElement, this._userRankComponent);
+    
     this._renderMovies(movies.slice(0, this._showingMoviesCount));
     this._renderExtraMovies(movies.slice());
     this._sortingComponent = new SortingComponent();
@@ -99,8 +103,6 @@ export default class PageController {
 
     this._renderLoadMoreButton();
 
-    // renderExtraMovies(container, getTopRated(movies), `Top Rated`, this._onDataChange, this._onViewChange);
-    // renderExtraMovies(container, getTopCommented(movies), `Most Commented`, this._onDataChange, this._onViewChange);
   }
 
   _renderMovies(movies) {
@@ -109,7 +111,6 @@ export default class PageController {
 
     const newMovies = renderMovies(movieListElement, movies, this._commentModel, this._onDataChange, this._onViewChange, this._api);
     this._showedMovieControllers = this._showedMovieControllers.concat(newMovies);
-    // this._showingMoviesCount = this._showedMovieControllers.length;
   }
 
   _renderExtraMovies(movies) {
@@ -122,8 +123,6 @@ export default class PageController {
   }
 
   _renderLoadMoreButton() {
-    // remove(this._loadMoreButtonComponent);
-
     const container = this._container.getElement();
     const movieListElement = container.querySelector(`.films-list__container`);
     const loadMoreButtonContainer = container.querySelector(`.films-list`);

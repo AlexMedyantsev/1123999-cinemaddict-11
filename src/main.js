@@ -4,7 +4,6 @@ import MoviesModel from "./models/movies.js";
 
 import BoardComponent from "./components/board.js";
 import FooterMoviesComponent from "./components/footer-movies-amount.js";
-import UserRankComponent from "./components/user-rank.js";
 
 import FilterController from "./controllers/filter.js";
 import StatisticController from "./controllers/statistics.js";
@@ -29,7 +28,6 @@ const commentsModel = new CommentsModel();
 
 // HEADER
 const siteHeaderElement = document.querySelector(`.header`);
-render(siteHeaderElement, new UserRankComponent(), RenderPosition.BEFOREEND);
 
 // MAIN
 const boardComponent = new BoardComponent();
