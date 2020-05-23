@@ -1,7 +1,7 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import {KeyCode} from "../const.js";
 import {encode} from "he";
-import {getFormattedTime} from '../utils/common.js';
+import {getFormattedTime, getFilmDuration} from '../utils/common.js';
 import {TimeToken} from '../const.js';
 
 
@@ -48,19 +48,19 @@ const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, act
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Writers</td>
-                  <td class="film-details__cell">${writers}</td>
+                  <td class="film-details__cell">${writers.join(`, `)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Actors</td>
-                  <td class="film-details__cell">${actors}</td>
+                  <td class="film-details__cell">${actors.join(`, `)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${releaseDate}</td>
+                  <td class="film-details__cell">${getFormattedTime(releaseDate, TimeToken.DATE)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${duration}</td>
+                  <td class="film-details__cell">${getFilmDuration(duration)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
@@ -143,7 +143,7 @@ const createGenreTemplate = (genres) => {
     return (
       `<span class="film-details__genre">${genre}</span>`
     );
-  });
+  }).join(``);
 };
 
 const createCommentTemplate = (comments) => {
