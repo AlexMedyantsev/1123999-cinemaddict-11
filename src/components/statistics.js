@@ -1,12 +1,14 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import Chart from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import {getPropertyCount} from "../utils/common.js";
+import {getProfileRating, getPropertyCount} from '../utils/common';
 import {FilterChartType} from "../const.js";
 import moment from "moment";
 
 
-const getAllGenres = (movies) => movies.reduce((acc, movie) => acc.concat(movie.genre), []);
+const getAllGenres = (movies) => movies.reduce((acc, movie) => acc.concat(movie.genres), []);
+
+const getWatchedGenres = (movies) => movies.filter((card) => card[`isWatched`]);
 
 const getUniqueGenres = (movies) => {
   const set = new Set();
@@ -16,7 +18,8 @@ const getUniqueGenres = (movies) => {
 };
 
 const getTotalDuration = (movies) => {
-  return moment.duration(movies.reduce((acc, movie) => acc + movie.duration, 0), `minutes`);
+  const watchedMovies = getWatchedMovies(movies);
+  return moment.duration(watchedMovies.reduce((acc, movie) => acc + movie.duration, 0), `minutes`);
 };
 
 const getWatchedMovies = (movies) => movies.filter((movie) => movie.isWatched);
@@ -26,30 +29,29 @@ const getTopGenre = (movies) => {
   const genresCount = getElementCount(movies); // количество каждого жанра
   const maxCount = Math.max(...genresCount);
   const index = genresCount.findIndex((num) => maxCount === num);
-  if (uniqueGenres === 0) {
-    return `No data`;
-  } else {
-    return uniqueGenres[index];
-  }
+
+  return uniqueGenres[index];
 };
 
 const getElementCount = (movies) => {
   const uniqueGenres = getUniqueGenres(movies);
-  const getConcatMovie = movies.reduce((acc, movie) => acc.concat(movie.genre), []);
+  const getConcatMovies = movies.reduce((acc, movie) => acc.concat(movie.genres), []);
 
-  return uniqueGenres.map((genre) => {
-    return getConcatMovie.filter((element) => element === genre).length;
+  return uniqueGenres.map((genres) => {
+    return getConcatMovies.filter((element) => element === genres).length;
   });
 };
 
 const getStatisticsTemplate = (movies, filterType) => {
   const totalDuration = getTotalDuration(movies);
+  const countWatched = getPropertyCount(movies, `isWatched`);
+  const rating = getProfileRating(countWatched);
   return (
     `<section class="statistic">
     <p class="statistic__rank">
       Your rank
       <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-      <span class="statistic__rank-label">Sci-Fighter</span>
+      <span class="statistic__rank-label">${rating}</span>
     </p>
 
     <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
@@ -74,15 +76,15 @@ const getStatisticsTemplate = (movies, filterType) => {
     <ul class="statistic__text-list">
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">You watched</h4>
-        <p class="statistic__item-text">${getPropertyCount(movies, `isWatched`)}<span class="statistic__item-description">movies</span></p>
+        <p class="statistic__item-text">${getPropertyCount(movies, `isWatched`) || `0`}<span class="statistic__item-description">movies</span></p>
       </li>
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">Total duration</h4>
-        <p class="statistic__item-text">${totalDuration.hours() + totalDuration.days() * 24} <span class="statistic__item-description">h</span> ${totalDuration.minutes()} <span class="statistic__item-description">m</span></p>
+        <p class="statistic__item-text">${totalDuration.hours() + totalDuration.days() * 24} <span class="statistic__item-description">h</span> ${totalDuration.minutes() || `0`} <span class="statistic__item-description">m</span></p>
       </li>
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">Top genre</h4>
-        <p class="statistic__item-text">${getTopGenre(movies)}</p>
+        <p class="statistic__item-text">${getTopGenre(movies) || ``}</p>
       </li>
     </ul>
 
@@ -137,7 +139,7 @@ export default class Statictics extends AbstractSmartComponent {
         labels: getUniqueGenres(getWatchedMovies(this._movies)),
         datasets: [
           {
-            data: getElementCount(getWatchedMovies(this._movies)),
+            data: getElementCount(getWatchedGenres(this._movies)),
             backgroundColor: `#ffe800`,
             borderWidth: 0,
             barThickness: 30,

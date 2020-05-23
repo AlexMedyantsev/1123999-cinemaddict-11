@@ -34,6 +34,7 @@ export default class Statistic {
     } else {
       render(container, this._statisticComponent);
     }
+
   }
 
   _statisticInputHandler(filterValue) {
