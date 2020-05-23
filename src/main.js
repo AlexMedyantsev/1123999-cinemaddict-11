@@ -1,16 +1,12 @@
 import API from "./api.js";
 import CommentsModel from "./models/comments.js";
 import MoviesModel from "./models/movies.js";
-
 import BoardComponent from "./components/board.js";
 import FooterMoviesComponent from "./components/footer-movies-amount.js";
-
 import FilterController from "./controllers/filter.js";
+import SortController from "./controllers/sort.js";
 import StatisticController from "./controllers/statistics.js";
 import PageController from "./controllers/page.js";
-
-import {MenuMode} from "./const.js";
-// import {generateCards} from "./mock/card.js";
 import {render, RenderPosition} from "./utils/render.js";
 
 const siteMainElement = document.querySelector(`.main`);
@@ -31,36 +27,58 @@ const siteHeaderElement = document.querySelector(`.header`);
 
 // MAIN
 const boardComponent = new BoardComponent();
-const filterController = new FilterController(siteMainElement, moviesModel);
-
-
-const statisticController = new StatisticController(siteMainElement, moviesModel);
-
-
-const pageController = new PageController(boardComponent, moviesModel, commentsModel, api);
 render(siteMainElement, boardComponent, RenderPosition.BEFOREEND);
+const filterController = new FilterController(siteMainElement, moviesModel);
+const statisticController = new StatisticController(siteMainElement, moviesModel);
+const sortController = new SortController(siteMainElement, moviesModel);
+const pageController = new PageController(boardComponent, moviesModel, commentsModel, api);
 
 // FOOTER
 // const siteFooterElement = document.querySelector(`.footer`);
 // render(siteFooterElement, new FooterMoviesComponent(CARDS_COUNT), RenderPosition.BEFOREEND);
 
 
+// api.getMovies()
+//   .then((movies) => {
+//     moviesModel.setMovies(movies);
+//     pageController.render(movies);
+//     filterController.render();
+//     filterController.setOnMenuChange((menuItem) => {
+//       switch (menuItem) {
+//         case MenuMode.STATISTICS:
+//           pageController.hide();
+//           statisticController.show();
+//           break;
+//         case MenuMode.FILTERS:
+//           pageController.show();
+//           statisticController.hide();
+//           break;
+//       }
+//     });
+//   });
+
+const menuChangeHandler = (filter) => {
+  if (!filter) {
+    pageController.hide();
+    sortController.hide();
+    statisticController.show();
+  } else {
+    pageController.show();
+    sortController.show();
+    statisticController.hide();
+  }
+};
+
+const renderPage = () => {
+  sortController.render();
+  filterController.render();
+  pageController.render();
+  statisticController.render();
+  filterController.setOnMenuChange(menuChangeHandler);
+};
+
 api.getMovies()
   .then((movies) => {
     moviesModel.setMovies(movies);
-    pageController.render(movies);
-    filterController.render();
-    filterController.setOnMenuChange((menuItem) => {
-      switch (menuItem) {
-        case MenuMode.STATISTICS:
-          pageController.hide();
-          statisticController.show();
-          break;
-        case MenuMode.FILTERS:
-          pageController.show();
-          statisticController.hide();
-          break;
-      }
-    });
-    statisticController.hide();
+    renderPage();
   });

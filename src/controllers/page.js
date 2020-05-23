@@ -1,4 +1,4 @@
-import SortingComponent, {SortType} from "../components/sorting.js";
+import SortingComponent, {SortType} from "../components/sort.js";
 import NoMoviesComponent from "../components/no-movies.js";
 import MovieController from "./movie.js";
 import UserRankComponent from '../components/user-rank.js';
@@ -78,7 +78,7 @@ export default class PageController {
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
     // this._moviesModel.setDataChangeHandler(this._onDataChange);
     this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
-    this._sortingComponent.setSortTypeChangeHandler(this._onSortTypeChange);
+    // this._sortingComponent.setSortChangeHandler(this._onSortTypeChange);
   }
 
   show() {
@@ -95,11 +95,11 @@ export default class PageController {
     this._sortedMovies = movies.slice();
     this._userRankComponent = new UserRankComponent(movies);
     render(siteHeaderElement, this._userRankComponent);
-    
+
     this._renderMovies(movies.slice(0, this._showingMoviesCount));
     this._renderExtraMovies(movies.slice());
-    this._sortingComponent = new SortingComponent();
-    render(siteMainElement, this._sortingComponent, RenderPosition.AFTERBEGIN);
+    // this._sortingComponent = new SortingComponent();
+    // render(siteMainElement, this._sortingComponent, RenderPosition.AFTERBEGIN);
 
     this._renderLoadMoreButton();
 
@@ -169,13 +169,13 @@ export default class PageController {
 
   _onDataChange(movieController, oldData, newData) {
     this._api.updateMovie(newData)
-    .then((movieModel) => {
-      const isSuccess = this._moviesModel.updateMovie(oldData.id, movieModel);
+      .then((movieModel) => {
+        const isSuccess = this._moviesModel.updateMovie(oldData.id, movieModel);
 
-      if (isSuccess) {
-        movieController.render(newData);
-      }
-    });
+        if (isSuccess) {
+          movieController.render(newData);
+        }
+      });
   }
 
   _onViewChange() {
