@@ -1,6 +1,9 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import {KeyCode} from "../const.js";
 import {encode} from "he";
+import {getFormattedTime} from '../utils/common.js';
+import {TimeToken} from '../const.js';
+
 
 const Mode = {
   DEFAULT: `default`,
@@ -134,13 +137,14 @@ const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, act
 const renderEmoji = (emoji) => {
   return emoji ? `<img src="./images/emoji/${emoji}.png" width="55" height="55" alt="emoji"></img>` : ``;
 };
+
 const createGenreTemplate = (genres) => {
   return genres.map((genre) => {
     return (
       `<span class="film-details__genre">${genre}</span>`
-    )
-  })
-}
+    );
+  });
+};
 
 const createCommentTemplate = (comments) => {
   return comments.map((item) => {
@@ -152,7 +156,7 @@ const createCommentTemplate = (comments) => {
       <p class="film-details__comment-text">${item.text}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${item.author}</span>
-        <span class="film-details__comment-day">${new Date(item.date)}</span>
+        <span class="film-details__comment-day">${getFormattedTime(item.date, TimeToken.COMMENT)}</span>
         <button class="film-details__comment-delete" id=${item.id}>Delete</button>
       </p>
     </div>
