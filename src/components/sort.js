@@ -38,11 +38,11 @@ export default class Sorting extends AbstractSmartComponent {
   }
 
   recoveryListeners() {
-    this.setSortTypeChangeHandler(this._sortTypeChangeHandler);
+    this.setSortChangeHandler(this._sortChangeHandler);
   }
 
 
-  setSortTypeChangeHandler(handler) {
+  setSortChangeHandler(handler) {
     this._sortTypeChangeHandler = handler;
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
