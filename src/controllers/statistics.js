@@ -1,5 +1,5 @@
 import StatisticComponent from '../components/statistics.js';
-import {render, replace, RenderPosition} from '../utils/render';
+import {render, replace, remove, RenderPosition} from '../utils/render';
 import {getMoviesByChartFilter} from '../utils/filter.js';
 const siteMainElement = document.querySelector(`.main`);
 
@@ -30,7 +30,7 @@ export default class Statistic {
     this._statisticComponent.setFilterInputHandler(this._statisticInputHandler);
 
     if (oldComponent) {
-      replace(this._statisticComponent, oldComponent);
+      replace(oldComponent, this._statisticComponent);
     } else {
       render(container, this._statisticComponent);
     }

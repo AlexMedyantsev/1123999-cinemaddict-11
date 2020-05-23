@@ -30,10 +30,6 @@ export const generateRandomDate = () => {
   return Math.random() * moment().format(`LL`);
 };
 
-// 0 — звание не отображается;
-// от 1 до 10 — novice;
-// от 11 до 20 — fan;
-// от 21 и выше — movie buff;
 const NumberMoviesWatched = {
   NOVICE: 10,
   FAN: 20
@@ -74,7 +70,7 @@ const topRatedFilmsShowed = 2;
 export const getTopRated = (array) => {
 
   const topRatedFilms = (array.slice().sort((a, b) => {
-    return b.rating - a.rating;
+    return b.rate - a.rate;
   }).slice(0, topRatedFilmsShowed));
 
   return topRatedFilms;
