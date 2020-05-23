@@ -8,24 +8,15 @@ import SortController from "./controllers/sort.js";
 import StatisticController from "./controllers/statistics.js";
 import PageController from "./controllers/page.js";
 import {render, RenderPosition} from "./utils/render.js";
+import {MenuMode} from "./const.js";
 
 const siteMainElement = document.querySelector(`.main`);
-// let CARDS_COUNT = 30;
 const AUTHORIZATION = `Basic SoFRcEgm30s3v`;
 const api = new API(AUTHORIZATION);
 
-// const cards = generateCards(CARDS_COUNT);
 const moviesModel = new MoviesModel();
-// moviesModel.setMovies(cards[0]);
-
 const commentsModel = new CommentsModel();
-// commentsModel.setComments(cards[1]);
 
-
-// HEADER
-const siteHeaderElement = document.querySelector(`.header`);
-
-// MAIN
 const boardComponent = new BoardComponent();
 render(siteMainElement, boardComponent, RenderPosition.BEFOREEND);
 const filterController = new FilterController(siteMainElement, moviesModel);
@@ -57,15 +48,17 @@ const pageController = new PageController(boardComponent, moviesModel, commentsM
 //     });
 //   });
 
-const menuChangeHandler = (filter) => {
-  if (!filter) {
-    pageController.hide();
-    sortController.hide();
-    statisticController.show();
-  } else {
-    pageController.show();
-    sortController.show();
-    statisticController.hide();
+const menuChangeHandler = (menuItem) => {
+  switch (menuItem) {
+    case MenuMode.STATISTICS:
+      pageController.hide();
+      sortController.hide();
+      statisticController.show();
+      break;
+    case MenuMode.FILTERS:
+      pageController.show();
+      sortController.show();
+      statisticController.hide();
   }
 };
 

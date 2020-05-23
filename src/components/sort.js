@@ -1,4 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
+import PageController from "../controllers/page.js";
 
 export const SortType = {
   RATING: `rating`,
@@ -19,7 +20,7 @@ export const createSortingTemplate = () => {
 export default class Sorting extends AbstractSmartComponent {
   constructor() {
     super();
-    this._sortTypeChangeHandler = null;
+    this._sortChangeHandler = null;
 
     this._currentSortType = SortType.DEFAULT;
   }
@@ -62,9 +63,9 @@ export default class Sorting extends AbstractSmartComponent {
         return;
       }
 
-      this._currentSortType = sortType;
+      // this._currentSortType = sortType;
 
-      handler(this._currentSortType);
+      handler(sortType);
     });
   }
 }

@@ -25,6 +25,7 @@ export default class Statistic {
 
     this._statisticComponent = new StatisticComponent(this._movies);
     render(siteMainElement, this._statisticComponent, RenderPosition.BEFOREEND);
+    this.hide();
     this._statisticComponent.renderChart();
 
     this._statisticComponent.setFilterInputHandler(this._statisticInputHandler);
