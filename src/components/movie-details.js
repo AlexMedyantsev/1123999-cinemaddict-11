@@ -207,7 +207,7 @@ export default class MovieDetails extends AbstractSmartComponent {
     this._submitCommentOnEnterHandler = handler;
     const commentInput = this.getElement().querySelector(`.film-details__comment-input`);
     commentInput.addEventListener(`keydown`, (evt) => {
-      if (evt.keyCode === KeyCode.ENTER && (evt.metaKey || KeyboardEvent.ctrlKey) && this.emoji && this.commentText) {
+      if (evt.keyCode === KeyCode.ENTER && (evt.metaKey || evt.ctrlKey) && this.emoji && this.commentText) {
         const newComment = {
           comment: encode(this.commentText),
           emotion: this.emoji,
