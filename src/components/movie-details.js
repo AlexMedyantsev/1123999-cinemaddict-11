@@ -1,11 +1,11 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 
-const Mode = {
-  DEFAULT: `default`,
-  EDIT: `edit`,
-};
+import {KeyCode, BLOCK_ATTRIBUTE} from "../const.js";
+import {encode} from "he";
+import {getFormattedTime, getFilmDuration} from '../utils/common.js';
+import {TimeToken} from '../const.js';
 
-const getFilmDetails = ({title, rating, year, duration, poster, description, comments, isFavorite, isInHistory, isInWatchlist}, emoji) => {
+const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, actors, director, writers, duration, poster, description, country, isFavorite, isWatched, isInWatchlist}, {emoji, comments, commentText}) => {
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -24,45 +24,45 @@ const getFilmDetails = ({title, rating, year, duration, poster, description, com
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
                   <h3 class="film-details__title">${title}</h3>
-                  <p class="film-details__title-original">Original: The Great Flamarion</p>
+                  <p class="film-details__title-original">${alternativeTitle}</p>
                 </div>
 
                 <div class="film-details__rating">
-                  <p class="film-details__total-rating">${rating}</p>
+                  <p class="film-details__total-rating">
+                  ${rate}
+                  </p>
                 </div>
               </div>
 
               <table class="film-details__table">
                 <tr class="film-details__row">
                   <td class="film-details__term">Director</td>
-                  <td class="film-details__cell">Anthony Mann</td>
+                  <td class="film-details__cell">${director}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Writers</td>
-                  <td class="film-details__cell">Anne Wigton, Heinz Herald, Richard Weil</td>
+                  <td class="film-details__cell">${writers.join(`, `)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Actors</td>
-                  <td class="film-details__cell">Erich von Stroheim, Mary Beth Hughes, Dan Duryea</td>
+                  <td class="film-details__cell">${actors.join(`, `)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${year}</td>
+                  <td class="film-details__cell">${getFormattedTime(releaseDate, TimeToken.DATE)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${duration}</td>
+                  <td class="film-details__cell">${getFilmDuration(duration)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
-                  <td class="film-details__cell">USA</td>
+                  <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Genres</td>
                   <td class="film-details__cell">
-                    <span class="film-details__genre">Drama</span>
-                    <span class="film-details__genre">Film-Noir</span>
-                    <span class="film-details__genre">Mystery</span></td>
+                    ${createGenreTemplate(genres)}
                 </tr>
               </table>
 
@@ -76,7 +76,7 @@ const getFilmDetails = ({title, rating, year, duration, poster, description, com
             <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" ${isInWatchlist ? `checked` : ``} name="watchlist">
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" ${isInHistory ? `checked` : ``} name="watched">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" ${isWatched ? `checked` : ``} name="watched">
             <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
             <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" ${isFavorite ? `checked` : ``} name="favorite">
@@ -131,6 +131,14 @@ const renderEmoji = (emoji) => {
   return emoji ? `<img src="./images/emoji/${emoji}.png" width="55" height="55" alt="emoji"></img>` : ``;
 };
 
+const createGenreTemplate = (genres) => {
+  return genres.map((genre) => {
+    return (
+      `<span class="film-details__genre">${genre}</span>`
+    );
+  }).join(``);
+};
+
 const createCommentTemplate = (comments) => {
   return comments.map((item) => {
     return (`<li class="film-details__comment">
@@ -141,8 +149,8 @@ const createCommentTemplate = (comments) => {
       <p class="film-details__comment-text">${item.text}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${item.author}</span>
-        <span class="film-details__comment-day">${new Date(item.date)}</span>
-        <button class="film-details__comment-delete">Delete</button>
+        <span class="film-details__comment-day">${getFormattedTime(item.date, TimeToken.COMMENT)}</span>
+        <button class="film-details__comment-delete" id=${item.id}>Delete</button>
       </p>
     </div>
   </li>`);
@@ -154,8 +162,21 @@ export default class Popup extends AbstractSmartComponent {
     super();
     this._filmDetails = filmDetails;
 
-    this._mode = Mode.DEFAULT;
+    this.emoji = null;
     this._subscribeOnEvents();
+  }
+
+  updateLocalState(comments) {
+    this._comments = comments;
+    this.rerender();
+  }
+
+  blockForm() {
+    this.getElement().querySelector(`.film-details__comment-input`).setAttribute.disabled = true;
+  }
+
+  unblockForm() {
+    this.getElement().querySelector(`.film-details__comment-input`).setAttribute.disabled = false;
   }
 
   recoveryListeners() {
@@ -176,6 +197,31 @@ export default class Popup extends AbstractSmartComponent {
   setFavoriteInPopupClickHandler(handler) {
     this.getElement().querySelector(`.film-details__control-label--favorite`).
       addEventListener(`click`, handler);
+  }
+
+  setDeleteCommentClickHandler(handler) {
+    this._deleteCommentClickHandler = handler;
+    this.getElement().querySelector(`.film-details__comments-list`).
+      addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+        handler(evt.target.id);
+      });
+  }
+
+  setSubmitCommentOnEnterHandler(handler) {
+    this._submitCommentOnEnterHandler = handler;
+    const commentInput = this.getElement().querySelector(`.film-details__comment-input`);
+    commentInput.addEventListener(`keydown`, (evt) => {
+      if (evt.keyCode === KeyCode.ENTER && (evt.metaKey || KeyboardEvent.ctrlKey) && this.emoji && this.commentText) {
+        const newComment = {
+          comment: encode(this.commentText),
+          emotion: this.emoji,
+          date: new Date(),
+        };
+        this.commentText = ``;
+        handler(newComment);
+      }
+    });
   }
 
   _subscribeOnEvents() {
