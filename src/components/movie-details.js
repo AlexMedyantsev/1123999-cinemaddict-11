@@ -4,7 +4,7 @@ import {encode} from "he";
 import {getFormattedTime, getFilmDuration} from '../utils/common.js';
 import {TimeToken} from '../const.js';
 
-const getFilmDetails = ({title, alternativeTitle, genres, rate, age, releaseDate, actors, director, writers, duration, poster, description, country, isFavorite, isWatched, isInWatchlist}, {emoji, comments, commentText}) => {
+const getFilmDetails = ({title, alternativeTitle, commentsId, genres, rate, age, releaseDate, actors, director, writers, duration, poster, description, country, isFavorite, isWatched, isInWatchlist}, {emoji, comments, commentText}) => {
   const titleGenre = (genres.length > 1) ? `Genres` : `Genre`;
   return (
     `<section class="film-details">
@@ -85,6 +85,7 @@ const getFilmDetails = ({title, alternativeTitle, genres, rate, age, releaseDate
 
         <div class="form-details__bottom-container">
           <section class="film-details__comments-wrap">
+          <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
             <ul class="film-details__comments-list">
               ${createCommentTemplate(comments)}
