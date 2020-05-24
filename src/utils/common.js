@@ -1,6 +1,7 @@
 import moment from "moment";
 import momentDurationFormatSetup from 'moment-duration-format';
 import {TimeToken} from "../const";
+import {NumberMoviesWatched, ProfileRank} from "../const.js";
 momentDurationFormatSetup(moment);
 
 export const getRandomIntegerNumber = (min, max) => {
@@ -19,17 +20,6 @@ export const getRandomArrayItem = (array) => {
 
 export const generateRandomDate = () => {
   return Math.random() * moment().format(`LL`);
-};
-
-const NumberMoviesWatched = {
-  NOVICE: 10,
-  FAN: 20
-};
-
-const ProfileRank = {
-  NOVICE: `novice`,
-  FAN: `fan`,
-  MOVIE_BUFF: `movie buff`
 };
 
 export const getProfileRating = (countWatched) => {

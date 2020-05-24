@@ -1,5 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
-import {KeyCode, BLOCK_ATTRIBUTE} from "../const.js";
+import {KeyCode} from "../const.js";
 import {encode} from "he";
 import {getFormattedTime, getFilmDuration} from '../utils/common.js';
 import {TimeToken} from '../const.js';
@@ -16,7 +16,6 @@ const getFilmDetails = ({title, alternativeTitle, genres, rate, age, releaseDate
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
               <img class="film-details__poster-img" src="${poster}" alt="">
-
               <p class="film-details__age">${age}+</p>
             </div>
 

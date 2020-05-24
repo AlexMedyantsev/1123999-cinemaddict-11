@@ -8,10 +8,7 @@ import FilmsExtraComponent from "../components/films-extra.js";
 import LoadMoreButtonComponent from "../components/load-more-button.js";
 import {render, remove, RenderPosition} from "../utils/render.js";
 import {getTopRated, getTopCommented} from "../utils/common.js";
-import {siteHeaderElement, siteMainElement} from "../const.js";
-
-let SHOWING_CARDS_COUNT_ON_START = 5;
-let SHOWING_CARDS_COUNT_BY_BUTTON = 5;
+import {siteHeaderElement, siteMainElement, SHOWING_CARDS_COUNT_ON_START, SHOWING_CARDS_COUNT_BY_BUTTON} from "../const.js";
 
 const renderExtraMovies = (container, sortedMovies, commentModel, title, onDataChange, onViewChange, api) => {
   let filmsExtraComponent = new FilmsExtraComponent(title);
@@ -192,7 +189,7 @@ export default class PageController {
     this._removeMovies();
     this._renderLoadMoreButton();
 
-    const newMovies = this._renderMovies(this._sortedMovies.slice(0, 5));
+    const newMovies = this._renderMovies(this._sortedMovies.slice(0, this._showingMoviesCount));
     this._showedTaskControllers = newMovies;
   }
 }
