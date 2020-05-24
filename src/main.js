@@ -24,9 +24,7 @@ const statisticController = new StatisticController(siteMainElement, moviesModel
 const sortController = new SortController(siteMainElement, moviesModel);
 const pageController = new PageController(boardComponent, moviesModel, commentsModel, api);
 
-// FOOTER
-// const siteFooterElement = document.querySelector(`.footer`);
-// render(siteFooterElement, new FooterMoviesComponent(CARDS_COUNT), RenderPosition.BEFOREEND);
+const siteFooterElement = document.querySelector(`.footer`);
 
 const menuChangeHandler = (menuItem) => {
   switch (menuItem) {
@@ -47,6 +45,7 @@ const renderPage = () => {
   filterController.render();
   pageController.render();
   statisticController.render();
+  render(siteFooterElement, new FooterMoviesComponent(moviesModel.getMoviesAll().length, RenderPosition.BEFOREEND));
   filterController.setOnMenuChange(menuChangeHandler);
 };
 
