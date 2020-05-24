@@ -15,7 +15,8 @@ export default class MovieController {
     this._mode = MovieMode.DEFAULT;
     this._api = api;
 
-    this._cardComponent = null;
+    this._movie = null;
+    this._movieComponent = null;
     this._movieDetailsPopupComponent = null;
   }
 
@@ -68,7 +69,7 @@ export default class MovieController {
       this._onDataChange(this, this._movie, newMovie);
     });
 
-    this._cardComponent.setClickHandler(() => {
+    this._movieComponent.setClickHandler(() => {
       document.addEventListener(`keydown`, onEscKeyDown);
       this._api.getComments(this._movie.id)
         .then((comments) => {
@@ -122,10 +123,14 @@ export default class MovieController {
         });
     });
 
-    if (oldCardComponent) {
-      replace(oldCardComponent, this._cardComponent);
+    if (oldMovieComponent) {
+      replace(oldMovieComponent, this._movieComponent);
     } else {
-      render(this._container, this._cardComponent, RenderPosition.BEFOREEND);
+      render(this._container, this._movieComponent, RenderPosition.BEFOREEND);
     }
+  }
+
+  destroy() {
+    remove(this._movieComponent);
   }
 }

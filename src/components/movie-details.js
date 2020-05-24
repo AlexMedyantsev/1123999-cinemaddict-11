@@ -1,11 +1,11 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
-
 import {KeyCode, BLOCK_ATTRIBUTE} from "../const.js";
 import {encode} from "he";
 import {getFormattedTime, getFilmDuration} from '../utils/common.js';
 import {TimeToken} from '../const.js';
 
-const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, actors, director, writers, duration, poster, description, country, isFavorite, isWatched, isInWatchlist}, {emoji, comments, commentText}) => {
+const getFilmDetails = ({title, alternativeTitle, genres, rate, age, releaseDate, actors, director, writers, duration, poster, description, country, isFavorite, isWatched, isInWatchlist}, {emoji, comments, commentText}) => {
+  const titleGenre = (genres.length > 1) ? `Genres` : `Genre`;
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -17,7 +17,7 @@ const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, act
             <div class="film-details__poster">
               <img class="film-details__poster-img" src="${poster}" alt="">
 
-              <p class="film-details__age">18+</p>
+              <p class="film-details__age">${age}+</p>
             </div>
 
             <div class="film-details__info">
@@ -60,7 +60,7 @@ const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, act
                   <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
-                  <td class="film-details__term">Genres</td>
+                  <td class="film-details__term">${titleGenre}</td>
                   <td class="film-details__cell">
                     ${createGenreTemplate(genres)}
                 </tr>
@@ -95,26 +95,26 @@ const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, act
               <div for="add-emoji" class="film-details__add-emoji-label">${renderEmoji(emoji)}</div>
 
               <label class="film-details__comment-label">
-                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${commentText ? commentText : ``}</textarea>
               </label>
 
               <div class="film-details__emoji-list">
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" ${emoji === `smile` ? `checked` : `` } type="radio" id="emoji-smile" value="smile">
+                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" ${emoji === `smile` ? `checked` : ``} type="radio" id="emoji-smile" value="smile">
                 <label class="film-details__emoji-label" for="emoji-smile">
                   <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
                 </label>
 
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" ${emoji === `sleeping` ? `checked` : `` } type="radio" id="emoji-sleeping" value="sleeping">
+                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" ${emoji === `sleeping` ? `checked` : ``} type="radio" id="emoji-sleeping" value="sleeping">
                 <label class="film-details__emoji-label" for="emoji-sleeping">
                   <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
                 </label>
 
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" ${emoji === `puke` ? `checked` : `` } type="radio" id="emoji-puke" value="puke">
+                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" ${emoji === `puke` ? `checked` : ``} type="radio" id="emoji-puke" value="puke">
                 <label class="film-details__emoji-label" for="emoji-puke">
                   <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
                 </label>
 
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" ${emoji === `angry` ? `checked` : `` } type="radio" id="emoji-angry" value="angry">
+                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" ${emoji === `angry` ? `checked` : ``} type="radio" id="emoji-angry" value="angry">
                 <label class="film-details__emoji-label" for="emoji-angry">
                   <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
                 </label>
@@ -161,6 +161,7 @@ export default class Popup extends AbstractSmartComponent {
   constructor(filmDetails) {
     super();
     this._filmDetails = filmDetails;
+    this._comments = this._filmDetails.comments;
 
     this.emoji = null;
     this._subscribeOnEvents();
@@ -182,6 +183,8 @@ export default class Popup extends AbstractSmartComponent {
   recoveryListeners() {
     this._subscribeOnEvents();
     this.setCloseButtonClickHandler(this.closeButtonClickHandler);
+    this.setDeleteCommentClickHandler(this._deleteCommentClickHandler);
+    this.setSubmitCommentOnEnterHandler(this._submitCommentOnEnterHandler);
   }
 
   setWatchlistInPopupClickHandler(handler) {
@@ -229,12 +232,20 @@ export default class Popup extends AbstractSmartComponent {
       this.emoji = event.target.value;
       this.rerender();
     };
+
+    const setCommentChangeHandler = (event) => {
+      this.commentText = event.target.value;
+    };
+
     this.getElement().querySelector(`.film-details__emoji-list`).
       addEventListener(`change`, setEmojiClickHandler);
+
+    this.getElement().querySelector(`.film-details__comment-input`).
+      addEventListener(`keyup`, setCommentChangeHandler);
   }
 
   getTemplate() {
-    return getFilmDetails(this._filmDetails, this.emoji);
+    return getFilmDetails(this._filmDetails, {emoji: this.emoji, comments: this._comments, commentText: this.commentText});
   }
 
   setCloseButtonClickHandler(handler) {
