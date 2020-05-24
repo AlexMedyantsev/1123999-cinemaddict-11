@@ -8,6 +8,7 @@ export default class Movies {
     this._activeFilterType = FilterType.ALL;
     this._activeSortType = SortType.DEFAULT;
 
+    this._dataChangeHandlers = [];
     this._filterChangeHandlers = [];
     this._sortChangeHandlers = [];
   }
