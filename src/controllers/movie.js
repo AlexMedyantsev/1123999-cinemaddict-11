@@ -12,7 +12,7 @@ const mode = {
 };
 
 export default class MovieController {
-  constructor(container, commentmodel, onDataChange, onViewChange, api) {
+  constructor(container, onDataChange, onViewChange, api) {
     this._container = container;
     this._commentModel = new CommentModel();
     this._onDataChange = onDataChange;
@@ -89,8 +89,7 @@ export default class MovieController {
           this._movieDetailsPopupComponent.setDeleteCommentClickHandler((commentId) => {
             this._api.deleteComment(commentId)
               // eslint-disable-next-line max-nested-callbacks
-              .then((response) => {
-                console.log(response);
+              .then(() => {
                 this._commentModel.deleteComment(commentId);
                 this._movieDetailsPopupComponent.updateLocalState(this._commentModel.getComments());
               });

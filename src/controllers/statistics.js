@@ -14,7 +14,6 @@ export default class Statistic {
 
     this._dataChangeHandler = this._dataChangeHandler.bind(this);
     this._statisticInputHandler = this._statisticInputHandler.bind(this);
-    this._moviesModel.setDataChangeHandler(this._dataChangeHandler);
   }
 
   render() {

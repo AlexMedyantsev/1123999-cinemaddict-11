@@ -25,7 +25,7 @@ const renderExtraMovies = (container, sortedMovies, commentModel, title, onDataC
 
 const renderMovies = (movieListElement, movies, commentModel, _dataChangeHandler, onViewChange, api) => {
   return movies.map((movie) => {
-    const movieController = new MovieController(movieListElement, commentModel, _dataChangeHandler, onViewChange, api);
+    const movieController = new MovieController(movieListElement, _dataChangeHandler, onViewChange, api);
 
     movieController.render(movie, commentModel);
 
@@ -75,7 +75,7 @@ export default class PageController {
     this._filterComponent = null;
     this._filterController = new FilterController(siteMainElement, this._moviesModel);
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
-    this._moviesModel.setDataChangeHandler(this._dataChangeHandler);
+    // this._moviesModel.setDataChangeHandler(this._dataChangeHandler);
     this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
     this._moviesModel.setSortChangeHandler(this._sortChangeHandler);
   }
@@ -97,8 +97,6 @@ export default class PageController {
 
     this._renderMovies(movies.slice(0, this._showingMoviesCount));
     this._renderExtraMovies(movies.slice());
-    // this._sortingComponent = new SortingComponent();
-    // render(siteMainElement, this._sortingComponent, RenderPosition.AFTERBEGIN);
 
     this._renderLoadMoreButton();
 

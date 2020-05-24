@@ -12,7 +12,7 @@ const Mode = {
 
 const BLOCK_CLASS = `disabled`;
 
-const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, actors, director, writers, duration, poster, description, country, isFavorite, isInHistory, isInWatchlist}, {emoji, comments, commentText}) => {
+const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, actors, director, writers, duration, poster, description, country, isFavorite, isWatched, isInWatchlist}, {emoji, comments, commentText}) => {
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -83,7 +83,7 @@ const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, act
             <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" ${isInWatchlist ? `checked` : ``} name="watchlist">
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" ${isInHistory ? `checked` : ``} name="watched">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" ${isWatched ? `checked` : ``} name="watched">
             <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
             <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" ${isFavorite ? `checked` : ``} name="favorite">
