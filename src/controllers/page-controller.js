@@ -11,7 +11,7 @@ import {getTopRated, getTopCommented} from "../utils/common.js";
 import {SITE_HEADER_ELEMENT, SITE_MAIN_ELEMENT, SHOWING_CARDS_COUNT_ON_START, SHOWING_CARDS_COUNT_BY_BUTTON} from "../const.js";
 
 const renderExtraMovies = (container, sortedMovies, commentModel, title, onDataChange, onViewChange, api) => {
-  let filmsExtraComponent = new FilmsExtraComponent(title);
+  const filmsExtraComponent = new FilmsExtraComponent(title);
   render(container, filmsExtraComponent, RenderPosition.BEFOREEND);
   const filmsListContainer = filmsExtraComponent.getElement().querySelector(`.films-list__container`);
 
