@@ -16,7 +16,7 @@ const createSortingTemplate = () => {
   );
 };
 
-export default class Sorting extends AbstractSmartComponent {
+export default class Sort extends AbstractSmartComponent {
   constructor() {
     super();
     this._sortChangeHandler = null;

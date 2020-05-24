@@ -2,7 +2,7 @@ import StatisticComponent from '../components/statistics.js';
 import {render, replace, RenderPosition} from '../utils/render';
 import {getMoviesByChartFilter} from '../utils/filter.js';
 import {SITE_MAIN_ELEMENT} from "../const.js";
-export default class Statistic {
+export default class StatisticsController {
   constructor(container, moviesModel) {
     this._container = container;
     this._moviesModel = moviesModel;
