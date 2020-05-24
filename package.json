@@ -14,15 +14,15 @@
     "eslint-config-htmlacademy": "0.5.2",
     "webpack": "4.42.1",
     "webpack-cli": "3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "3.11.0"
   },
   "engines": {
     "node": "10"
   },
   "dependencies": {
-    "chart.js": "^2.9.3",
-    "chartjs-plugin-datalabels": "^0.7.0",
-    "he": "^1.2.0",
-    "moment-duration-format": "^2.3.2"
+    "chart.js": "2.9.3",
+    "chartjs-plugin-datalabels": "0.7.0",
+    "he": "1.2.0",
+    "moment-duration-format": "2.3.2"
   }
 }
