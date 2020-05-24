@@ -14,7 +14,6 @@ export default class Statistic {
 
     this._dataChangeHandler = this._dataChangeHandler.bind(this);
     this._statisticInputHandler = this._statisticInputHandler.bind(this);
-    this._moviesModel.setDataChangeHandler(this._dataChangeHandler);
   }
 
   render() {
@@ -25,20 +24,21 @@ export default class Statistic {
 
     this._statisticComponent = new StatisticComponent(this._movies);
     render(siteMainElement, this._statisticComponent, RenderPosition.BEFOREEND);
+    this.hide();
     this._statisticComponent.renderChart();
 
     this._statisticComponent.setFilterInputHandler(this._statisticInputHandler);
 
     if (oldComponent) {
-      replace(this._statisticComponent, oldComponent);
+      replace(oldComponent, this._statisticComponent);
     } else {
       render(container, this._statisticComponent);
     }
+
   }
 
   _statisticInputHandler(filterValue) {
     const movies = getMoviesByChartFilter(this._movies, filterValue);
-    // const oldComponent = this._statisticComponent;
     this._statisticComponent.updateState(movies);
     this._statisticComponent.renderChart();
   }

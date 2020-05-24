@@ -1,44 +1,74 @@
 import moment from "moment";
+import momentDurationFormatSetup from 'moment-duration-format';
+import {TimeToken} from "../const";
+momentDurationFormatSetup(moment);
 
-const getRandomIntegerNumber = (min, max) => {
+export const getRandomIntegerNumber = (min, max) => {
   return Math.floor((Math.random() * (max - min) + min));
 };
 
-const getZeroOrOne = () => {
+export const getZeroOrOne = () => {
   return Math.random() > 0.5;
 };
 
-const getRandomArrayItem = (array) => {
+export const getRandomArrayItem = (array) => {
   const randomIndex = (getRandomIntegerNumber(0, array.length - 1));
 
   return array[randomIndex];
 };
 
-const getMockTime = () => {
-  return 10;
-};
-
-const getRandomDate = () => {
-  // return Date.now() - getRandomIntegerNumber(1000000, 1000000000000);
-  return moment();
-};
-
-const generateRandomDate = () => {
+export const generateRandomDate = () => {
   return Math.random() * moment().format(`LL`);
 };
 
+const NumberMoviesWatched = {
+  NOVICE: 10,
+  FAN: 20
+};
+
+const ProfileRank = {
+  NOVICE: `novice`,
+  FAN: `fan`,
+  MOVIE_BUFF: `movie buff`
+};
+
+export const getProfileRating = (countWatched) => {
+  if (countWatched <= NumberMoviesWatched.NOVICE) {
+    return ProfileRank.NOVICE;
+  } else if (countWatched <= NumberMoviesWatched.FAN) {
+    return ProfileRank.FAN;
+  } else if (countWatched > NumberMoviesWatched.FAN) {
+    return ProfileRank.MOVIE_BUFF;
+  }
+  return ``;
+};
+
+export const getFormattedTime = (date, timeToken) => {
+  return moment(date).format(timeToken);
+};
+
+export const getFilmDuration = (movieDuration) => {
+  return moment.duration(movieDuration, `minutes`).format(TimeToken.TIME);
+};
+
+export const getLimitString = (string, maxLength, lastSymbol = `...`) => {
+  return string.length > maxLength
+    ? string.substr(0, maxLength - lastSymbol.length) + lastSymbol
+    : string;
+};
+
 const topRatedFilmsShowed = 2;
-const getTopRated = (array) => {
+export const getTopRated = (array) => {
 
   const topRatedFilms = (array.slice().sort((a, b) => {
-    return b.rating - a.rating;
+    return b.rate - a.rate;
   }).slice(0, topRatedFilmsShowed));
 
   return topRatedFilms;
 };
 
-const topCommentedFilmsShowed = 2;
-const getTopCommented = (array) => {
+export const topCommentedFilmsShowed = 2;
+export const getTopCommented = (array) => {
 
   const topCommentedFilms = ((array.slice().sort((a, b) => {
     return b.comments.length - a.comments.length;
@@ -47,6 +77,4 @@ const getTopCommented = (array) => {
   return topCommentedFilms;
 };
 
-const getPropertyCount = (array, property) => array.filter((element) => element[property]).length;
-
-export {getRandomIntegerNumber, generateRandomDate, getPropertyCount, getZeroOrOne, getRandomArrayItem, getMockTime, getRandomDate, getTopRated, getTopCommented};
+export const getPropertyCount = (array, property) => array.filter((element) => element[property]).length;

@@ -45,7 +45,7 @@ export default class FilterController {
   }
 
   _onDataChange() {
-    this._render();
+    this.render();
   }
 
   setOnMenuChange(handler) {

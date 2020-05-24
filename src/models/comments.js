@@ -1,5 +1,3 @@
-// import {getCommentsByFilter} from "../utils/filter.js";
-
 export default class Comments {
   constructor() {
     this._comments = [];
