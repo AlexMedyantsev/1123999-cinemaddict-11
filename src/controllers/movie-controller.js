@@ -117,6 +117,7 @@ export default class MovieController {
           document.addEventListener(`keydown`, onEscKeyDown);
           this._movieDetailsPopupComponent.setCloseButtonClickHandler(() => {
             this.closePopup();
+            document.removeEventListener(`keydown`, onEscKeyDown);
           });
         });
     });
