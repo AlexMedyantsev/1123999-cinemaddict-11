@@ -1,5 +1,4 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
-import PageController from "../controllers/page.js";
 
 export const SortType = {
   RATING: `rating`,

@@ -1,5 +1,5 @@
 import StatisticComponent from '../components/statistics.js';
-import {render, replace, remove, RenderPosition} from '../utils/render';
+import {render, replace, RenderPosition} from '../utils/render';
 import {getMoviesByChartFilter} from '../utils/filter.js';
 const siteMainElement = document.querySelector(`.main`);
 

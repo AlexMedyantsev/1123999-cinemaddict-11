@@ -1,15 +1,6 @@
 import Movie from "./models/movie.js";
 import Comment from "./models/comment.js";
-
-const SERVER_URL = `https://11.ecmascript.pages.academy/cinemaddict`;
-
-
-const Method = {
-  GET: `GET`,
-  POST: `POST`,
-  PUT: `PUT`,
-  DELETE: `DELETE`
-};
+import {Method, SERVER_URL} from "./const.js";
 
 const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {

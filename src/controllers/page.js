@@ -8,9 +8,7 @@ import FilmsExtraComponent from "../components/films-extra.js";
 import LoadMoreButtonComponent from "../components/load-more-button.js";
 import {render, remove, RenderPosition} from "../utils/render.js";
 import {getTopRated, getTopCommented} from "../utils/common.js";
-
-const siteMainElement = document.querySelector(`.main`);
-const siteHeaderElement = document.querySelector(`.header`);
+import {siteHeaderElement, siteMainElement} from "../const.js";
 
 let SHOWING_CARDS_COUNT_ON_START = 5;
 let SHOWING_CARDS_COUNT_BY_BUTTON = 5;

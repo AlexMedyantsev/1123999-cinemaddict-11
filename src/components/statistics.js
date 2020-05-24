@@ -5,7 +5,6 @@ import {getProfileRating, getPropertyCount} from '../utils/common';
 import {FilterChartType} from "../const.js";
 import moment from "moment";
 
-
 const getAllGenres = (movies) => movies.reduce((acc, movie) => acc.concat(movie.genres), []);
 
 const getWatchedGenres = (movies) => movies.filter((card) => card[`isWatched`]);

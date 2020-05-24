@@ -1,15 +1,10 @@
+import Comment from "../models/comment.js";
+import CommentModel from "../models/comments.js";
 import MovieDetailsPopupComponent from "../components/movie-details.js";
 import Movie from "../models/movie.js";
 import MovieComponent from "../components/movie.js";
 import {render, RenderPosition, remove, replace} from "../utils/render.js";
-import Comment from "../models/comment.js";
-import CommentModel from "../models/comments.js";
-
-const bodyElement = document.querySelector(`body`);
-const mode = {
-  DEFAULT: `default`,
-  OPENED: `opened`,
-};
+import {bodyElement, MovieMode} from "../const.js";
 
 export default class MovieController {
   constructor(container, onDataChange, onViewChange, api) {
@@ -17,7 +12,7 @@ export default class MovieController {
     this._commentModel = new CommentModel();
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
-    this._mode = mode.DEFAULT;
+    this._mode = MovieMode.DEFAULT;
     this._api = api;
 
     this._movie = null;
@@ -26,7 +21,7 @@ export default class MovieController {
   }
 
   setDefaultView() {
-    if (this._mode === mode.OPENED) {
+    if (this._mode === MovieMode.OPENED) {
       this.closePopup();
     }
   }
@@ -35,7 +30,7 @@ export default class MovieController {
     bodyElement.removeChild(this._movieDetailsPopupComponent.getElement());
     this._movieDetailsPopupComponent.removeElement();
     this._movieDetailsPopupComponent = null;
-    this._mode = mode.DEFAULT;
+    this._mode = MovieMode.DEFAULT;
   }
 
   render(movie) {
@@ -45,7 +40,7 @@ export default class MovieController {
 
     const openPopup = () => {
       bodyElement.appendChild(this._movieDetailsPopupComponent.getElement());
-      this._mode = mode.OPENED;
+      this._mode = MovieMode.OPENED;
     };
 
     const onEscKeyDown = (evt) => {

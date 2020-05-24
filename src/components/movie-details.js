@@ -1,16 +1,8 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
-import {KeyCode} from "../const.js";
+import {KeyCode, BLOCK_ATTRIBUTE} from "../const.js";
 import {encode} from "he";
 import {getFormattedTime, getFilmDuration} from '../utils/common.js';
 import {TimeToken} from '../const.js';
-
-
-const Mode = {
-  DEFAULT: `default`,
-  EDIT: `edit`,
-};
-
-const BLOCK_CLASS = `disabled`;
 
 const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, actors, director, writers, duration, poster, description, country, isFavorite, isWatched, isInWatchlist}, {emoji, comments, commentText}) => {
   return (
@@ -171,7 +163,6 @@ export default class Popup extends AbstractSmartComponent {
     this._comments = this._filmDetails.comments;
 
     this.emoji = null;
-    this._mode = Mode.DEFAULT;
     this._subscribeOnEvents();
   }
 
@@ -234,6 +225,7 @@ export default class Popup extends AbstractSmartComponent {
       }
     });
   }
+
   _subscribeOnEvents() {
     const setEmojiClickHandler = (event) => {
       this.emoji = event.target.value;
