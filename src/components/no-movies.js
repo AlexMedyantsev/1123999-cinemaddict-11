@@ -9,7 +9,7 @@ const createNoTasksTemplate = () => {
   );
 };
 
-export default class NoTasks extends AbstractComponent {
+export default class NoMovies extends AbstractComponent {
   getTemplate() {
     return createNoTasksTemplate();
   }

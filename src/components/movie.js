@@ -30,7 +30,7 @@ export const createCardTemplate = (card) => {
   );
 };
 
-export default class Card extends AbstractSmartComponent {
+export default class Movie extends AbstractSmartComponent {
   constructor(card) {
     super();
     this._card = card;

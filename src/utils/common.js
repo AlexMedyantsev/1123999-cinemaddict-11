@@ -1,7 +1,7 @@
 import moment from "moment";
 import momentDurationFormatSetup from 'moment-duration-format';
 import {TimeToken} from "../const";
-import {NumberMoviesWatched, ProfileRank} from "../const.js";
+import {MoviesNumberWatched, ProfileRank} from "../const.js";
 momentDurationFormatSetup(moment);
 
 export const getRandomIntegerNumber = (min, max) => {
@@ -23,11 +23,11 @@ export const generateRandomDate = () => {
 };
 
 export const getProfileRating = (countWatched) => {
-  if (countWatched <= NumberMoviesWatched.NOVICE) {
+  if (countWatched <= MoviesNumberWatched.NOVICE) {
     return ProfileRank.NOVICE;
-  } else if (countWatched <= NumberMoviesWatched.FAN) {
+  } else if (countWatched <= MoviesNumberWatched.FAN) {
     return ProfileRank.FAN;
-  } else if (countWatched > NumberMoviesWatched.FAN) {
+  } else if (countWatched > MoviesNumberWatched.FAN) {
     return ProfileRank.MOVIE_BUFF;
   }
   return ``;
@@ -48,6 +48,7 @@ export const getLimitString = (string, maxLength, lastSymbol = `...`) => {
 };
 
 const topRatedFilmsShowed = 2;
+
 export const getTopRated = (array) => {
 
   const topRatedFilms = (array.slice().sort((a, b) => {

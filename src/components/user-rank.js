@@ -1,8 +1,8 @@
 import AbstractComponent from "./abstract-component.js";
 import {getProfileRating, getPropertyCount} from '../utils/common';
 
-const getUserRankTemplate = (cards) => {
-  const countWatched = getPropertyCount(cards, `isWatched`);
+const getUserRankTemplate = (movies) => {
+  const countWatched = getPropertyCount(movies, `isWatched`);
   const rating = getProfileRating(countWatched);
 
   return (
@@ -13,11 +13,11 @@ const getUserRankTemplate = (cards) => {
 };
 
 export default class UserRank extends AbstractComponent {
-  constructor(cards) {
+  constructor(movies) {
     super();
-    this._cards = cards;
+    this._movies = movies;
   }
   getTemplate() {
-    return getUserRankTemplate(this._cards);
+    return getUserRankTemplate(this._movies);
   }
 }

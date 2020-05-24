@@ -8,7 +8,7 @@ export const getFooterMoviesCountTemplate = (count) => {
   );
 };
 
-export default class footerMoviesCount extends AbstractComponent {
+export default class footerMoviesAmount extends AbstractComponent {
   constructor(count) {
     super();
     this._count = count;

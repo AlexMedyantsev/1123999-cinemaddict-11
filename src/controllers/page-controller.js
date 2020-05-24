@@ -1,14 +1,14 @@
 import SortingComponent, {SortType} from "../components/sort.js";
 import NoMoviesComponent from "../components/no-movies.js";
-import MovieController from "./movie.js";
+import MovieController from "../controllers/movie-controller.js";
 import UserRankComponent from '../components/user-rank.js';
-import CardComponent from "../components/movie.js";
-import FilterController from "../controllers/filter.js";
+import MovieComponent from "../components/movie.js";
+import FilterController from "../controllers/filter-controller.js";
 import FilmsExtraComponent from "../components/films-extra.js";
 import LoadMoreButtonComponent from "../components/load-more-button.js";
 import {render, remove, RenderPosition} from "../utils/render.js";
 import {getTopRated, getTopCommented} from "../utils/common.js";
-import {SiteHeaderElement, SiteMainElement, SHOWING_CARDS_COUNT_ON_START, SHOWING_CARDS_COUNT_BY_BUTTON} from "../const.js";
+import {SITE_HEADER_ELEMENT, SITE_MAIN_ELEMENT, SHOWING_CARDS_COUNT_ON_START, SHOWING_CARDS_COUNT_BY_BUTTON} from "../const.js";
 
 const renderExtraMovies = (container, sortedMovies, commentModel, title, onDataChange, onViewChange, api) => {
   let filmsExtraComponent = new FilmsExtraComponent(title);
@@ -65,10 +65,10 @@ export default class PageController {
     this._onViewChange = this._onViewChange.bind(this);
 
     this._noMoviesComponent = new NoMoviesComponent();
-    this._movieComponent = new CardComponent();
+    this._movieComponent = new MovieComponent();
     this._sortingComponent = new SortingComponent();
     this._filterComponent = null;
-    this._filterController = new FilterController(SiteMainElement, this._moviesModel);
+    this._filterController = new FilterController(SITE_MAIN_ELEMENT, this._moviesModel);
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
     this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
     this._moviesModel.setSortChangeHandler(this._sortChangeHandler);
@@ -87,7 +87,7 @@ export default class PageController {
 
     this._sortedMovies = movies.slice();
     this._userRankComponent = new UserRankComponent(movies);
-    render(SiteHeaderElement, this._userRankComponent);
+    render(SITE_HEADER_ELEMENT, this._userRankComponent);
 
     this._renderMovies(movies.slice(0, this._showingMoviesCount));
     this._renderExtraMovies(movies.slice());

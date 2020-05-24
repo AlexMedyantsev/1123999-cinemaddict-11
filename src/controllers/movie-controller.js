@@ -4,7 +4,7 @@ import MovieDetailsPopupComponent from "../components/movie-details.js";
 import Movie from "../models/movie.js";
 import MovieComponent from "../components/movie.js";
 import {render, RenderPosition, remove, replace} from "../utils/render.js";
-import {BodyElement, MovieMode} from "../const.js";
+import {BODY_ELEMENT, MovieMode} from "../const.js";
 
 export default class MovieController {
   constructor(container, onDataChange, onViewChange, api) {
@@ -27,7 +27,7 @@ export default class MovieController {
   }
 
   closePopup() {
-    BodyElement.removeChild(this._movieDetailsPopupComponent.getElement());
+    BODY_ELEMENT.removeChild(this._movieDetailsPopupComponent.getElement());
     this._movieDetailsPopupComponent.removeElement();
     this._movieDetailsPopupComponent = null;
     this._mode = MovieMode.DEFAULT;
@@ -39,7 +39,7 @@ export default class MovieController {
     this._movieComponent = new MovieComponent(movie);
 
     const openPopup = () => {
-      BodyElement.appendChild(this._movieDetailsPopupComponent.getElement());
+      BODY_ELEMENT.appendChild(this._movieDetailsPopupComponent.getElement());
       this._mode = MovieMode.OPENED;
     };
 
@@ -85,14 +85,12 @@ export default class MovieController {
           });
 
           this._movieDetailsPopupComponent.setSubmitCommentOnEnterHandler((newComment) => {
-            this._movieDetailsPopupComponent.blockForm();
             this._api.createComment(this._movie.id, Comment.cloneData(newComment))
               // eslint-disable-next-line max-nested-callbacks
               .then((response) => {
                 const newComments = Comment.parseComments(response.comments);
                 this._commentModel.setComments(newComments);
                 this._movieDetailsPopupComponent.updateLocalState(newComments);
-                this._movieDetailsPopupComponent.unBlockForm();
               });
           });
 

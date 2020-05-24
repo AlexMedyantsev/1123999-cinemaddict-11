@@ -7,7 +7,7 @@ import moment from "moment";
 
 const getAllGenres = (movies) => movies.reduce((acc, movie) => acc.concat(movie.genres), []);
 
-const getWatchedGenres = (movies) => movies.filter((card) => card[`isWatched`]);
+const getWatchedGenres = (movies) => movies.filter((movie) => movie[`isWatched`]);
 
 const getUniqueGenres = (movies) => {
   const set = new Set();

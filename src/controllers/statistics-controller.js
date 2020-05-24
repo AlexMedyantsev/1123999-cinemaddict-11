@@ -1,7 +1,7 @@
 import StatisticComponent from '../components/statistics.js';
 import {render, replace, RenderPosition} from '../utils/render';
 import {getMoviesByChartFilter} from '../utils/filter.js';
-import {SiteMainElement} from "../const.js";
+import {SITE_MAIN_ELEMENT} from "../const.js";
 export default class Statistic {
   constructor(container, moviesModel) {
     this._container = container;
@@ -22,7 +22,7 @@ export default class Statistic {
     const oldComponent = this._statisticComponent;
 
     this._statisticComponent = new StatisticComponent(this._movies);
-    render(SiteMainElement, this._statisticComponent, RenderPosition.BEFOREEND);
+    render(SITE_MAIN_ELEMENT, this._statisticComponent, RenderPosition.BEFOREEND);
     this.hide();
     this._statisticComponent.renderChart();
 

@@ -156,7 +156,7 @@ const createCommentTemplate = (comments) => {
   }).join(`\n`);
 };
 
-export default class Popup extends AbstractSmartComponent {
+export default class MovieDetails extends AbstractSmartComponent {
   constructor(filmDetails) {
     super();
     this._filmDetails = filmDetails;
@@ -169,14 +169,6 @@ export default class Popup extends AbstractSmartComponent {
   updateLocalState(comments) {
     this._comments = comments;
     this.rerender();
-  }
-
-  blockForm() {
-    this.getElement().querySelector(`.film-details__comment-input`).setAttribute.disabled = true;
-  }
-
-  unblockForm() {
-    this.getElement().querySelector(`.film-details__comment-input`).setAttribute.disabled = false;
   }
 
   recoveryListeners() {

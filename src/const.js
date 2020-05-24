@@ -40,7 +40,7 @@ export const Method = {
   DELETE: `DELETE`
 };
 
-export const NumberMoviesWatched = {
+export const MoviesNumberWatched = {
   NOVICE: 10,
   FAN: 20
 };
@@ -51,10 +51,10 @@ export const ProfileRank = {
   MOVIE_BUFF: `movie buff`
 };
 
-export const BodyElement = document.querySelector(`body`);
-export const SiteHeaderElement = document.querySelector(`.header`);
-export const SiteMainElement = document.querySelector(`.main`);
-export const SiteFooterElement = document.querySelector(`.footer`);
+export const BODY_ELEMENT = document.querySelector(`body`);
+export const SITE_HEADER_ELEMENT = document.querySelector(`.header`);
+export const SITE_MAIN_ELEMENT = document.querySelector(`.main`);
+export const SITE_FOOTER_ELEMENT = document.querySelector(`.footer`);
 
 export const AUTHORIZATION = `Basic SoFRcEgm30s3v`;
 export const HIDDEN_CLASS = `visually-hidden`;

@@ -11,7 +11,7 @@ const getFilmsExtraElement = (title) => {
   );
 };
 
-export default class extraFilms extends AbstractComponent {
+export default class FilmsExtra extends AbstractComponent {
   constructor(title) {
     super();
     this._title = title;
