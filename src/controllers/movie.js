@@ -38,12 +38,6 @@ export default class MovieController {
     this._mode = mode.DEFAULT;
   }
 
-  // getMovieComments(movie) {
-  //   return movie.comments.map((id) => {
-  //     return this._commentModel.getCommentById(id);
-  //   });
-  // }
-
   render(movie) {
     this._movie = movie;
     const oldMovieComponent = this._movieComponent;

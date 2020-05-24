@@ -28,26 +28,6 @@ const pageController = new PageController(boardComponent, moviesModel, commentsM
 // const siteFooterElement = document.querySelector(`.footer`);
 // render(siteFooterElement, new FooterMoviesComponent(CARDS_COUNT), RenderPosition.BEFOREEND);
 
-
-// api.getMovies()
-//   .then((movies) => {
-//     moviesModel.setMovies(movies);
-//     pageController.render(movies);
-//     filterController.render();
-//     filterController.setOnMenuChange((menuItem) => {
-//       switch (menuItem) {
-//         case MenuMode.STATISTICS:
-//           pageController.hide();
-//           statisticController.show();
-//           break;
-//         case MenuMode.FILTERS:
-//           pageController.show();
-//           statisticController.hide();
-//           break;
-//       }
-//     });
-//   });
-
 const menuChangeHandler = (menuItem) => {
   switch (menuItem) {
     case MenuMode.STATISTICS:

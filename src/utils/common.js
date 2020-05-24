@@ -17,15 +17,6 @@ export const getRandomArrayItem = (array) => {
   return array[randomIndex];
 };
 
-export const getMockTime = () => {
-  return 10;
-};
-
-export const getRandomDate = () => {
-  // return Date.now() - getRandomIntegerNumber(1000000, 1000000000000);
-  return moment();
-};
-
 export const generateRandomDate = () => {
   return Math.random() * moment().format(`LL`);
 };

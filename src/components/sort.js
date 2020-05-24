@@ -63,9 +63,9 @@ export default class Sorting extends AbstractSmartComponent {
         return;
       }
 
-      // this._currentSortType = sortType;
+      this._currentSortType = sortType;
 
-      handler(sortType);
+      handler(this._currentSortType);
     });
   }
 }

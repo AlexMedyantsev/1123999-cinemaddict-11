@@ -39,7 +39,6 @@ export default class Statistic {
 
   _statisticInputHandler(filterValue) {
     const movies = getMoviesByChartFilter(this._movies, filterValue);
-    // const oldComponent = this._statisticComponent;
     this._statisticComponent.updateState(movies);
     this._statisticComponent.renderChart();
   }

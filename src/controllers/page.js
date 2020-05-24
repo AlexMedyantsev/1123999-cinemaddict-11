@@ -75,7 +75,6 @@ export default class PageController {
     this._filterComponent = null;
     this._filterController = new FilterController(siteMainElement, this._moviesModel);
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
-    // this._moviesModel.setDataChangeHandler(this._dataChangeHandler);
     this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
     this._moviesModel.setSortChangeHandler(this._sortChangeHandler);
   }
@@ -115,8 +114,6 @@ export default class PageController {
 
     renderExtraMovies(container, getTopRated(movies), this._commentModel, `Top Rated`, this._dataChangeHandler, this._onViewChange, this._api);
     renderExtraMovies(container, getTopCommented(movies), this._commentModel, `Most Commented`, this._dataChangeHandler, this._onViewChange, this._api);
-
-    // this._showedMovieControllers = this._showedMovieControllers.concat(newExtraMovies, newExtraMovies1);
   }
 
   _renderLoadMoreButton() {

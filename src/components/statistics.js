@@ -25,8 +25,8 @@ const getTotalDuration = (movies) => {
 const getWatchedMovies = (movies) => movies.filter((movie) => movie.isWatched);
 
 const getTopGenre = (movies) => {
-  const uniqueGenres = getUniqueGenres(movies); // уникальные жанры
-  const genresCount = getElementCount(movies); // количество каждого жанра
+  const uniqueGenres = getUniqueGenres(movies);
+  const genresCount = getElementCount(movies);
   const maxCount = Math.max(...genresCount);
   const index = genresCount.findIndex((num) => maxCount === num);
 
