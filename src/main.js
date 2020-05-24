@@ -6,7 +6,7 @@ import FooterMoviesComponent from "./components/footer-movies-amount.js";
 import FilterController from "./controllers/filter.js";
 import SortController from "./controllers/sort.js";
 import StatisticController from "./controllers/statistics.js";
-import {siteMainElement, siteFooterElement, AUTHORIZATION} from "./const.js";
+import {SiteMainElement, SiteFooterElement, AUTHORIZATION} from "./const.js";
 import PageController from "./controllers/page.js";
 import {render, RenderPosition} from "./utils/render.js";
 import {MenuMode} from "./const.js";
@@ -17,10 +17,10 @@ const moviesModel = new MoviesModel();
 const commentsModel = new CommentsModel();
 
 const boardComponent = new BoardComponent();
-render(siteMainElement, boardComponent, RenderPosition.BEFOREEND);
-const filterController = new FilterController(siteMainElement, moviesModel);
-const statisticController = new StatisticController(siteMainElement, moviesModel);
-const sortController = new SortController(siteMainElement, moviesModel);
+render(SiteMainElement, boardComponent, RenderPosition.BEFOREEND);
+const filterController = new FilterController(SiteMainElement, moviesModel);
+const statisticController = new StatisticController(SiteMainElement, moviesModel);
+const sortController = new SortController(SiteMainElement, moviesModel);
 const pageController = new PageController(boardComponent, moviesModel, commentsModel, api);
 
 
@@ -43,7 +43,7 @@ const renderPage = () => {
   filterController.render();
   pageController.render();
   statisticController.render();
-  render(siteFooterElement, new FooterMoviesComponent(moviesModel.getMoviesAll().length, RenderPosition.BEFOREEND));
+  render(SiteFooterElement, new FooterMoviesComponent(moviesModel.getMoviesAll().length, RenderPosition.BEFOREEND));
   filterController.setOnMenuChange(menuChangeHandler);
 };
 

@@ -51,10 +51,10 @@ export const ProfileRank = {
   MOVIE_BUFF: `movie buff`
 };
 
-export const bodyElement = document.querySelector(`body`);
-export const siteHeaderElement = document.querySelector(`.header`);
-export const siteMainElement = document.querySelector(`.main`);
-export const siteFooterElement = document.querySelector(`.footer`);
+export const BodyElement = document.querySelector(`body`);
+export const SiteHeaderElement = document.querySelector(`.header`);
+export const SiteMainElement = document.querySelector(`.main`);
+export const SiteFooterElement = document.querySelector(`.footer`);
 
 export const AUTHORIZATION = `Basic SoFRcEgm30s3v`;
 export const HIDDEN_CLASS = `visually-hidden`;

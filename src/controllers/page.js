@@ -8,7 +8,7 @@ import FilmsExtraComponent from "../components/films-extra.js";
 import LoadMoreButtonComponent from "../components/load-more-button.js";
 import {render, remove, RenderPosition} from "../utils/render.js";
 import {getTopRated, getTopCommented} from "../utils/common.js";
-import {siteHeaderElement, siteMainElement, SHOWING_CARDS_COUNT_ON_START, SHOWING_CARDS_COUNT_BY_BUTTON} from "../const.js";
+import {SiteHeaderElement, SiteMainElement, SHOWING_CARDS_COUNT_ON_START, SHOWING_CARDS_COUNT_BY_BUTTON} from "../const.js";
 
 const renderExtraMovies = (container, sortedMovies, commentModel, title, onDataChange, onViewChange, api) => {
   let filmsExtraComponent = new FilmsExtraComponent(title);
@@ -68,7 +68,7 @@ export default class PageController {
     this._movieComponent = new CardComponent();
     this._sortingComponent = new SortingComponent();
     this._filterComponent = null;
-    this._filterController = new FilterController(siteMainElement, this._moviesModel);
+    this._filterController = new FilterController(SiteMainElement, this._moviesModel);
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
     this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
     this._moviesModel.setSortChangeHandler(this._sortChangeHandler);
@@ -87,7 +87,7 @@ export default class PageController {
 
     this._sortedMovies = movies.slice();
     this._userRankComponent = new UserRankComponent(movies);
-    render(siteHeaderElement, this._userRankComponent);
+    render(SiteHeaderElement, this._userRankComponent);
 
     this._renderMovies(movies.slice(0, this._showingMoviesCount));
     this._renderExtraMovies(movies.slice());

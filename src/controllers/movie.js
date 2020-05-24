@@ -4,7 +4,7 @@ import MovieDetailsPopupComponent from "../components/movie-details.js";
 import Movie from "../models/movie.js";
 import MovieComponent from "../components/movie.js";
 import {render, RenderPosition, remove, replace} from "../utils/render.js";
-import {bodyElement, MovieMode} from "../const.js";
+import {BodyElement, MovieMode} from "../const.js";
 
 export default class MovieController {
   constructor(container, onDataChange, onViewChange, api) {
@@ -27,7 +27,7 @@ export default class MovieController {
   }
 
   closePopup() {
-    bodyElement.removeChild(this._movieDetailsPopupComponent.getElement());
+    BodyElement.removeChild(this._movieDetailsPopupComponent.getElement());
     this._movieDetailsPopupComponent.removeElement();
     this._movieDetailsPopupComponent = null;
     this._mode = MovieMode.DEFAULT;
@@ -39,7 +39,7 @@ export default class MovieController {
     this._movieComponent = new MovieComponent(movie);
 
     const openPopup = () => {
-      bodyElement.appendChild(this._movieDetailsPopupComponent.getElement());
+      BodyElement.appendChild(this._movieDetailsPopupComponent.getElement());
       this._mode = MovieMode.OPENED;
     };
 
