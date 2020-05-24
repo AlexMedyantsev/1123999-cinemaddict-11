@@ -4,24 +4,6 @@ import {TimeToken} from "../const";
 import {MoviesNumberWatched, ProfileRank} from "../const.js";
 momentDurationFormatSetup(moment);
 
-export const getRandomIntegerNumber = (min, max) => {
-  return Math.floor((Math.random() * (max - min) + min));
-};
-
-export const getZeroOrOne = () => {
-  return Math.random() > 0.5;
-};
-
-export const getRandomArrayItem = (array) => {
-  const randomIndex = (getRandomIntegerNumber(0, array.length - 1));
-
-  return array[randomIndex];
-};
-
-export const generateRandomDate = () => {
-  return Math.random() * moment().format(`LL`);
-};
-
 export const getProfileRating = (countWatched) => {
   if (countWatched <= MoviesNumberWatched.NOVICE) {
     return ProfileRank.NOVICE;

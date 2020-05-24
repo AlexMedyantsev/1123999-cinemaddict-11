@@ -95,7 +95,7 @@ const getStatisticsTemplate = (movies, filterType) => {
   );
 };
 
-export default class Statictics extends AbstractSmartComponent {
+export default class Statistics extends AbstractSmartComponent {
   constructor(movies) {
     super();
     this._movies = movies;

@@ -40,19 +40,6 @@ export default class Comments {
     return true;
   }
 
-  addComment(comment) {
-    this._comments.push(comment);
-  }
-
-  getCommentById(id) {
-    const comment = this._comments.filter((element) => element.id === id)[0];
-    return comment;
-  }
-
-  setDataChangeHandler(handler) {
-    this.dataChangeHandler.push(handler);
-  }
-
   _callHandlers(handlers) {
     handlers.forEach((handler) => handler());
   }
