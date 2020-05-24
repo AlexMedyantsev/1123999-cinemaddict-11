@@ -5,6 +5,7 @@ import {getFormattedTime, getFilmDuration} from '../utils/common.js';
 import {TimeToken} from '../const.js';
 
 const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, actors, director, writers, duration, poster, description, country, isFavorite, isWatched, isInWatchlist}, {emoji, comments, commentText}) => {
+  const titleGenre = (genres.length > 1) ? `Genres` : `Genre`;
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -59,7 +60,7 @@ const getFilmDetails = ({title, alternativeTitle, genres, rate, releaseDate, act
                   <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
-                  <td class="film-details__term">Genres</td>
+                  <td class="film-details__term">${titleGenre}</td>
                   <td class="film-details__cell">
                     ${createGenreTemplate(genres)}
                 </tr>

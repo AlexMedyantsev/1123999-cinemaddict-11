@@ -47,8 +47,7 @@ export const siteFooterElement = document.querySelector(`.footer`);
 
 export const AUTHORIZATION = `Basic SoFRcEgm30s3v`;
 export const HIDDEN_CLASS = `visually-hidden`;
-export const BLOCK_ATTRIBUTE= `disabled`;
+export const BLOCK_ATTRIBUTE = `disabled`;
 export const SERVER_URL = `https://11.ecmascript.pages.academy/cinemaddict`;
-
-
-
+export const SHOWING_CARDS_COUNT_ON_START = 5;
+export const SHOWING_CARDS_COUNT_BY_BUTTON = 5;
