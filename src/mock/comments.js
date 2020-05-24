@@ -5,23 +5,17 @@ const textItems = [`Lorem ipsum dolor sit amet, consectetur adipiscing elit.`, `
 const authorItems = [`authorX`, `authorY`, `authorZ`, `authorA`];
 const emojiItems = [`smile`, `sleeping`, `puke`, `angry`];
 
-const generateComment = (commentsArray) => {
-  const id = (Date.now() + Math.random()) + ``;
-  commentsArray.push({
-    id,
+const generateComment = () => {
+  return {
     text: getRandomArrayItem(textItems),
     author: getRandomArrayItem(authorItems),
     emoji: getRandomArrayItem(emojiItems),
     date: getRandomDate(),
-  });
-
-  return id;
+  };
 };
 
-export const generateCommentList = (count, commentsArray) => {
+export const generateCommentList = (count) => {
   return new Array(parseInt(count, 10))
     .fill(``)
-    .map(() => {
-      return generateComment(commentsArray);
-    });
+    .map(generateComment);
 };
