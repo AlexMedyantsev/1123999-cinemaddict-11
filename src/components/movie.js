@@ -2,7 +2,7 @@ import AbstractSmartComponent from "./abstract-smart-component.js";
 import {TimeToken} from "../const.js";
 import {getFormattedTime, getFilmDuration, getLimitString} from "../utils/common.js";
 
-const MAX_LENGTH_DESCRIPTION = 139;
+const MAX_LENGTH_DESCRIPTION = 142;
 const createFilmGenre = (genre) => `<span class="film-card__genre">${genre}</span>`;
 
 const createCardTemplate = (card) => {
