@@ -14,7 +14,7 @@ const createFilterMarkup = (filter) => {
   );
 };
 
-export const createFilterTemplate = (filters) => {
+const createFilterTemplate = (filters) => {
   const filtersMarkup = filters.map((it) =>
     createFilterMarkup(it, it.checked)).join(`\n`);
 

@@ -5,7 +5,7 @@ import {getFormattedTime, getFilmDuration, getLimitString} from "../utils/common
 const MAX_LENGTH_DESCRIPTION = 139;
 const createFilmGenre = (genre) => `<span class="film-card__genre">${genre}</span>`;
 
-export const createCardTemplate = (card) => {
+const createCardTemplate = (card) => {
   const {title, rate, releaseDate, duration, genres, poster, description, comments, isFavorite, isWatched, isInWatchlist} = card;
   const getLimitDescription = getLimitString(description, MAX_LENGTH_DESCRIPTION);
 

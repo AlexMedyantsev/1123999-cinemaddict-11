@@ -6,7 +6,7 @@ export const SortType = {
   DEFAULT: `default`,
 };
 
-export const createSortingTemplate = () => {
+const createSortingTemplate = () => {
   return (
     `<ul class="sort">
       <li><a href="#"  data-sort-type="${SortType.DEFAULT}" class="sort__button sort__button--active">Sort by default</a></li>
