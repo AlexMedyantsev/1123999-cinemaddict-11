@@ -5,6 +5,7 @@ import {getMoviesByFilter} from "../utils/filter.js";
 export default class Movies {
   constructor() {
     this._movies = [];
+    this._moviesForSortAndFilter = [];
     this._activeFilterType = FilterType.ALL;
     this._activeSortType = SortType.DEFAULT;
 
@@ -23,6 +24,10 @@ export default class Movies {
 
   setMovies(movies) {
     this._movies = Array.from(movies);
+  }
+
+  setMoviesForSortAndFilter(movies) {
+    this._moviesForSortAndFilter = Array.from(movies);
   }
 
   updateMovie(id, updatedMovie) {
