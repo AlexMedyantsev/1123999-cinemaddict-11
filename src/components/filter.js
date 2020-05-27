@@ -52,6 +52,7 @@ export default class Filter extends AbstractComponent {
       evt.target.classList.add(`main-navigation__item--active`);
       const clickedFilter = evt.target;
       const clickedFilterLink = clickedFilter.id;
+
       handler(clickedFilterLink.slice(8));
     });
   }
