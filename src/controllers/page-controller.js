@@ -143,7 +143,7 @@ export default class PageController {
   _sortChangeHandler(sortType) {
     this._showingMoviesCount = SHOWING_CARDS_COUNT_ON_START;
     this._sortedMovies = getSortedMovies(this._moviesModel.getMovies(), sortType);
-    
+
 
     this._removeMovies();
     this._renderLoadMoreButton();
