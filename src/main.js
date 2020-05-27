@@ -50,6 +50,6 @@ const renderPage = () => {
 api.getMovies()
   .then((movies) => {
     moviesModel.setMovies(movies);
-    renderPage();
     boardComponent.hideLoadMessage();
+    renderPage();
   });
