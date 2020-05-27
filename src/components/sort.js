@@ -23,6 +23,7 @@ export default class Sort extends AbstractSmartComponent {
     this._activeFilter = null;
 
     this._currentSortType = SortType.DEFAULT;
+    this.setDefaultSortType = this.setDefaultSortType.bind(this);
   }
 
   getTemplate() {
@@ -37,6 +38,7 @@ export default class Sort extends AbstractSmartComponent {
     this._currentSortType = SortType.DEFAULT;
     this._activeFilter = this.getElement().querySelector(`.sort__default`);
     this.rerender();
+    this.recoveryListeners();
   }
 
   recoveryListeners() {
@@ -45,7 +47,7 @@ export default class Sort extends AbstractSmartComponent {
 
 
   setSortChangeHandler(handler) {
-    this._sortTypeChangeHandler = handler;
+    this._sortChangeHandler = handler;
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 

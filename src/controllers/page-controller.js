@@ -131,7 +131,7 @@ export default class PageController {
     const previousMoviesCount = this._showingMoviesCount;
     this._showingMoviesCount += SHOWING_CARDS_COUNT_BY_BUTTON;
 
-    const sortedMovies = this._moviesModel.getMovies().slice(previousMoviesCount, this._showingMoviesCount);
+    const sortedMovies = this._sortedMovies.slice(previousMoviesCount, this._showingMoviesCount);
 
     this._renderMovies(sortedMovies);
 
@@ -143,6 +143,7 @@ export default class PageController {
   _sortChangeHandler(sortType) {
     this._showingMoviesCount = SHOWING_CARDS_COUNT_ON_START;
     this._sortedMovies = getSortedMovies(this._moviesModel.getMovies(), sortType);
+    
 
     this._removeMovies();
     this._renderLoadMoreButton();
@@ -154,7 +155,6 @@ export default class PageController {
   _onFilterTypeChange() {
     this._showingMoviesCount = SHOWING_CARDS_COUNT_ON_START;
 
-    this._sortingComponent.setDefaultSortType();
     const container = this._container.getElement();
     const movieListElement = container.querySelector(`.films-list__container`);
 

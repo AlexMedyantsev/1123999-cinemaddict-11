@@ -17,6 +17,8 @@ export default class SortController {
 
     this._sortComponent = new SortComponent();
     this._sortComponent.setSortChangeHandler(this._sortChangeHandler);
+    this._moviesModel.setFilterChangeHandler(this._sortComponent.setDefaultSortType);
+
 
     if (oldComponent) {
       replace(this._sortComponent, oldComponent);
