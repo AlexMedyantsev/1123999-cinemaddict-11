@@ -255,6 +255,10 @@ export default class MovieDetails extends AbstractSmartComponent {
     this.rerender();
   }
 
+  getTemplate() {
+    return getFilmDetails(this._filmDetails, {emoji: this.emoji, comments: this._comments, commentText: this.commentText}, this._externalData);
+  }
+
   _subscribeOnEvents() {
     const setEmojiClickHandler = (event) => {
       this.emoji = event.target.value;
@@ -270,10 +274,6 @@ export default class MovieDetails extends AbstractSmartComponent {
 
     this.getElement().querySelector(`.film-details__comment-input`).
       addEventListener(`keyup`, setCommentChangeHandler);
-  }
-
-  getTemplate() {
-    return getFilmDetails(this._filmDetails, {emoji: this.emoji, comments: this._comments, commentText: this.commentText}, this._externalData);
   }
 
   setCloseButtonClickHandler(handler) {

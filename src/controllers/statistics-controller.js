@@ -36,6 +36,14 @@ export default class StatisticsController {
 
   }
 
+  hide() {
+    this._statisticComponent.hide();
+  }
+
+  show() {
+    this._statisticComponent.show();
+  }
+
   _statisticInputHandler(filterValue) {
     const movies = getMoviesByChartFilter(this._movies, filterValue);
     this._statisticComponent.updateState(movies);
@@ -44,13 +52,5 @@ export default class StatisticsController {
 
   _dataChangeHandler() {
     this.render();
-  }
-
-  hide() {
-    this._statisticComponent.hide();
-  }
-
-  show() {
-    this._statisticComponent.show();
   }
 }

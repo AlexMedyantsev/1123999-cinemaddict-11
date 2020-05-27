@@ -1,5 +1,5 @@
 import {FilterType} from "../const.js";
-import {SortType} from "../components/sort.js";
+import {SortType} from "../const.js";
 import {getMoviesByFilter} from "../utils/filter.js";
 
 export default class Movies {

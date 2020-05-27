@@ -31,9 +31,9 @@ export const getLimitString = (string, maxLength, lastSymbol = `...`) => {
 
 const topRatedFilmsShowed = 2;
 
-export const getTopRated = (element) => {
+export const getTopRated = (elements) => {
 
-  const topRatedFilms = (element.slice().sort((a, b) => {
+  const topRatedFilms = (elements.slice().sort((a, b) => {
     return b.rate - a.rate;
   }).slice(0, topRatedFilmsShowed));
 
@@ -41,13 +41,13 @@ export const getTopRated = (element) => {
 };
 
 export const topCommentedFilmsShowed = 2;
-export const getTopCommented = (element) => {
+export const getTopCommented = (elements) => {
 
-  const topCommentedFilms = ((element.slice().sort((a, b) => {
+  const topCommentedFilms = ((elements.slice().sort((a, b) => {
     return b.comments.length - a.comments.length;
   }).slice(0, topCommentedFilmsShowed)));
 
   return topCommentedFilms;
 };
 
-export const getPropertyCount = (element, property) => element.filter((item) => item[property]).length;
+export const getPropertyCount = (elements, property) => elements.filter((item) => item[property]).length;

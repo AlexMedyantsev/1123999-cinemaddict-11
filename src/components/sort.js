@@ -1,10 +1,6 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
+import {SortType} from "../const.js";
 
-export const SortType = {
-  RATING: `rating`,
-  DATE: `date`,
-  DEFAULT: `default`,
-};
 
 const createSortingTemplate = () => {
   return (

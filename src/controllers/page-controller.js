@@ -1,4 +1,5 @@
-import SortingComponent, {SortType} from "../components/sort.js";
+import SortingComponent from "../components/sort.js";
+import {SortType} from "../const.js";
 import NoMoviesComponent from "../components/no-movies.js";
 import MovieController from "../controllers/movie-controller.js";
 import UserRankComponent from '../components/user-rank.js';

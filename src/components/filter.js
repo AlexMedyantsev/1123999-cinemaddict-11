@@ -1,11 +1,6 @@
 import AbstractComponent from "./abstract-component.js";
 import {MenuMode} from "../const.js";
 
-export const MenuItem = {
-  STATISTICS: `control__statistic`,
-  MOVIES: `control__task`,
-};
-
 const createFilterMarkup = (filter) => {
   const {name, count} = filter;
 
