@@ -2,9 +2,9 @@ import AbstractSmartComponent from "./abstract-smart-component.js";
 import {KeyCode} from "../const.js";
 import {encode} from "he";
 import {getFormattedTime, getFilmDuration} from '../utils/common.js';
-import {TimeToken} from '../const.js';
+import {TimeToken, DefaultData} from '../const.js';
 
-const getFilmDetails = ({title, alternativeTitle, commentsId, genres, rate, age, releaseDate, actors, director, writers, duration, poster, description, country, isFavorite, isWatched, isInWatchlist}, {emoji, comments, commentText}) => {
+const getFilmDetails = ({title, alternativeTitle, genres, rate, age, releaseDate, actors, director, writers, duration, poster, description, country, isFavorite, isWatched, isInWatchlist}, {emoji, comments, commentText}, defaultData) => {
   const titleGenre = (genres.length > 1) ? `Genres` : `Genre`;
   return (
     `<section class="film-details">
@@ -60,8 +60,7 @@ const getFilmDetails = ({title, alternativeTitle, commentsId, genres, rate, age,
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">${titleGenre}</td>
-                  <td class="film-details__cell">
-                    ${createGenreTemplate(genres)}
+                  <td class="film-details__cell">${createGenreTemplate(genres)}</td>
                 </tr>
               </table>
 
@@ -88,7 +87,7 @@ const getFilmDetails = ({title, alternativeTitle, commentsId, genres, rate, age,
           <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
             <ul class="film-details__comments-list">
-              ${createCommentTemplate(comments)}
+              ${createCommentTemplate(comments, defaultData)}
             </ul>
 
             <div class="film-details__new-comment">
@@ -136,10 +135,11 @@ const createGenreTemplate = (genres) => {
     return (
       `<span class="film-details__genre">${genre}</span>`
     );
-  }).join(``);
+  }).join(`,`);
 };
 
-const createCommentTemplate = (comments) => {
+const createCommentTemplate = (comments, options) => {
+  const {deleteButtonText, deleteButtonDisabled} = options;
   return comments.map((item) => {
     return (`<li class="film-details__comment">
     <span class="film-details__comment-emoji">
@@ -150,7 +150,7 @@ const createCommentTemplate = (comments) => {
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${item.author}</span>
         <span class="film-details__comment-day">${getFormattedTime(item.date, TimeToken.COMMENT)}</span>
-        <button class="film-details__comment-delete" id=${item.id}>Delete</button>
+        <button class="film-details__comment-delete" id=${item.id} ${deleteButtonDisabled}>${deleteButtonText}</button>
       </p>
     </div>
   </li>`);
@@ -158,18 +158,45 @@ const createCommentTemplate = (comments) => {
 };
 
 export default class MovieDetails extends AbstractSmartComponent {
-  constructor(filmDetails) {
+  constructor(filmDetails, onErrorHandler) {
     super();
     this._filmDetails = filmDetails;
     this._comments = this._filmDetails.comments;
+    this._externalData = DefaultData;
 
     this.emoji = null;
+    this.commentField = this.getElement().querySelector(`.film-details__comment-input`);
     this._subscribeOnEvents();
+    this.shake = onErrorHandler;
   }
 
   updateLocalState(comments) {
     this._comments = comments;
     this.rerender();
+  }
+
+  setFormLock() {
+    this.getElement()
+      .querySelectorAll(`.film-details__emoji-item`)
+      .forEach((element) => element.setAttribute(`disabled`, `disabled`));
+
+    this.commentField.setAttribute(`disabled`, `disabled`);
+  }
+
+  setFormUnlock() {
+    this.getElement()
+      .querySelectorAll(`.film-details__emoji-item`)
+      .forEach((element) => element.removeAttribute(`disabled`, `disabled`));
+
+    this.commentField.removeAttribute(`disabled`, `disabled`);
+  }
+
+  setCommentFieldError() {
+    this.commentField.style.border = `1px solid red`;
+  }
+
+  deleteCommentFieldError() {
+    this.commentField.style.border = `1px solid #979797`;
   }
 
   recoveryListeners() {
@@ -207,16 +234,25 @@ export default class MovieDetails extends AbstractSmartComponent {
     this._submitCommentOnEnterHandler = handler;
     const commentInput = this.getElement().querySelector(`.film-details__comment-input`);
     commentInput.addEventListener(`keydown`, (evt) => {
-      if (evt.keyCode === KeyCode.ENTER && (evt.metaKey || evt.ctrlKey) && this.emoji && this.commentText) {
-        const newComment = {
-          comment: encode(this.commentText),
-          emotion: this.emoji,
-          date: new Date(),
-        };
-        this.commentText = ``;
-        handler(newComment);
+      if (evt.keyCode === KeyCode.ENTER && (evt.metaKey || evt.ctrlKey)) {
+        if (this.emoji && this.commentText) {
+          const newComment = {
+            comment: encode(this.commentText),
+            emotion: this.emoji,
+            date: new Date(),
+          };
+          this.commentText = ``;
+          handler(newComment);
+        } else {
+          this.shake();
+        }
       }
     });
+  }
+
+  setData(data) {
+    this._externalData = Object.assign({}, DefaultData, data);
+    this.rerender();
   }
 
   _subscribeOnEvents() {
@@ -237,7 +273,7 @@ export default class MovieDetails extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return getFilmDetails(this._filmDetails, {emoji: this.emoji, comments: this._comments, commentText: this.commentText});
+    return getFilmDetails(this._filmDetails, {emoji: this.emoji, comments: this._comments, commentText: this.commentText}, this._externalData);
   }
 
   setCloseButtonClickHandler(handler) {

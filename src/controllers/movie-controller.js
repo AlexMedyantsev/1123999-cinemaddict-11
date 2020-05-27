@@ -6,6 +6,8 @@ import MovieComponent from "../components/movie.js";
 import {render, RenderPosition, remove, replace} from "../utils/render.js";
 import {BODY_ELEMENT, MovieMode} from "../const.js";
 
+const SHAKE_ANIMATION_TIMEOUT = 600;
+
 export default class MovieController {
   constructor(container, onDataChange, onViewChange, api) {
     this._container = container;
@@ -14,6 +16,9 @@ export default class MovieController {
     this._onViewChange = onViewChange;
     this._mode = MovieMode.DEFAULT;
     this._api = api;
+
+    this.shake = this.shake.bind(this);
+    this.commentSendingError = this.commentSendingError.bind(this);
 
     this._movie = null;
     this._movieComponent = null;
@@ -24,6 +29,20 @@ export default class MovieController {
     if (this._mode === MovieMode.OPENED) {
       this.closePopup();
     }
+  }
+
+  shake() {
+    this._movieDetailsPopupComponent.getElement().classList.add(`shake`);
+
+    setTimeout(() => {
+      this._movieDetailsPopupComponent.getElement().classList.remove(`shake`);
+    }, SHAKE_ANIMATION_TIMEOUT);
+  }
+
+  commentSendingError() {
+    this.shake();
+    this._movieDetailsPopupComponent.setFormUnlock();
+    this._movieDetailsPopupComponent.setCommentFieldError();
   }
 
   closePopup() {
@@ -74,13 +93,32 @@ export default class MovieController {
       this._api.getComments(this._movie.id)
         .then((comments) => {
           this._commentModel.setComments(comments);
-          this._movieDetailsPopupComponent = new MovieDetailsPopupComponent(Object.assign({}, this._movie, {comments}));
+          this._movieDetailsPopupComponent = new MovieDetailsPopupComponent(Object.assign({}, this._movie, {comments}), this.commentSendingError);
+
           this._movieDetailsPopupComponent.setDeleteCommentClickHandler((commentId) => {
+            this._movieDetailsPopupComponent.setData({
+              deleteButtonText: `Deleting…`,
+              deleteButtonDisabled: `disabled`
+            });
+            this._movieDetailsPopupComponent.setFormLock();
             this._api.deleteComment(commentId)
               // eslint-disable-next-line max-nested-callbacks
               .then(() => {
                 this._commentModel.deleteComment(commentId);
                 this._movieDetailsPopupComponent.updateLocalState(this._commentModel.getComments());
+                this._movieDetailsPopupComponent.setData({
+                  deleteButtonText: `Delete`,
+                  deleteButtonDisabled: ``
+                });
+                this._movieDetailsPopupComponent.setFormUnlock();
+              })
+              // eslint-disable-next-line max-nested-callbacks
+              .catch(() => {
+                this._movieDetailsPopupComponent.setData({
+                  deleteButtonText: `Delete`,
+                  deleteButtonDisabled: ``
+                });
+                this.shake();
               });
           });
 
@@ -88,9 +126,16 @@ export default class MovieController {
             this._api.createComment(this._movie.id, Comment.cloneData(newComment))
               // eslint-disable-next-line max-nested-callbacks
               .then((response) => {
+                this._movieDetailsPopupComponent.deleteCommentFieldError();
+                this._movieDetailsPopupComponent.setFormLock();
                 const newComments = Comment.parseComments(response.comments);
                 this._commentModel.setComments(newComments);
                 this._movieDetailsPopupComponent.updateLocalState(newComments);
+                this._movieDetailsPopupComponent.setFormUnlock();
+              })
+              // eslint-disable-next-line max-nested-callbacks
+              .catch(() => {
+                this.commentSendingError();
               });
           });
 
