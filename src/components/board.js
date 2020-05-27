@@ -4,7 +4,7 @@ export const createBoardTemplate = () => {
   return (
     `<section class="films">
       <section class="films-list">
-        <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
+        <h2 class="films-list__title">Loading...</h2>
         <div class="films-list__container"></div>
       </section>
     </section>`
@@ -14,6 +14,6 @@ export const createBoardTemplate = () => {
 
 export default class Board extends AbstractComponent {
   getTemplate() {
-    return createBoardTemplate();
+    return createBoardTemplate(this._movieLoadStatus);
   }
 }

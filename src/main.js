@@ -9,7 +9,7 @@ import StatisticController from "./controllers/statistics-controller.js";
 import {SITE_MAIN_ELEMENT, SITE_FOOTER_ELEMENT, AUTHORIZATION} from "./const.js";
 import PageController from "./controllers/page-controller.js";
 import {render, RenderPosition} from "./utils/render.js";
-import {MenuMode} from "./const.js";
+import {MenuMode, HIDDEN_CLASS} from "./const.js";
 
 const api = new API(AUTHORIZATION);
 
@@ -51,4 +51,5 @@ api.getMovies()
   .then((movies) => {
     moviesModel.setMovies(movies);
     renderPage();
+    boardComponent.getElement().querySelector(`.films-list__title`).classList.add(HIDDEN_CLASS);
   });
