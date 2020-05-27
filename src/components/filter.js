@@ -42,6 +42,11 @@ export default class Filter extends AbstractComponent {
   setFilterChangeHandler(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
+
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+
       const activeFilter = this.getElement().querySelector(`.main-navigation__item--active`);
       activeFilter.classList.remove(`main-navigation__item--active`);
       evt.target.classList.add(`main-navigation__item--active`);
