@@ -1,4 +1,5 @@
 import AbstractComponent from "./abstract-component.js";
+import {HIDDEN_CLASS} from "../const.js";
 
 export const createBoardTemplate = () => {
   return (
@@ -15,5 +16,9 @@ export const createBoardTemplate = () => {
 export default class Board extends AbstractComponent {
   getTemplate() {
     return createBoardTemplate(this._movieLoadStatus);
+  }
+
+  hideLoadMessage() {
+    this.getElement().querySelector(`.films-list__title`).classList.add(HIDDEN_CLASS);
   }
 }
