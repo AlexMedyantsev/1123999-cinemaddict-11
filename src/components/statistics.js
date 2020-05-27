@@ -1,4 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
+import MovieModel from "../models/movies.js";
 import Chart from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import {getProfileRating, getPropertyCount} from '../utils/common';
@@ -41,9 +42,9 @@ const getElementCount = (movies) => {
   });
 };
 
-const getStatisticsTemplate = (movies, filterType) => {
+const getStatisticsTemplate = (movies, filterType, allMovies) => {
   const totalDuration = getTotalDuration(movies);
-  const countWatched = getPropertyCount(movies, `isWatched`);
+  const countWatched = getPropertyCount(allMovies, `isWatched`);
   const rating = getProfileRating(countWatched);
   return (
     `<section class="statistic">
@@ -99,13 +100,14 @@ export default class Statistics extends AbstractSmartComponent {
   constructor(movies) {
     super();
     this._movies = movies;
+    this._moviesModel = new MovieModel();
     this._activeFilterType = `all-time`;
 
     this.filterInputhandler = null;
   }
 
   getTemplate() {
-    return getStatisticsTemplate(this._movies, this._activeFilterType);
+    return getStatisticsTemplate(this._movies, this._activeFilterType, this._moviesModel.getMoviesAll());
   }
 
   recoveryListeners() {

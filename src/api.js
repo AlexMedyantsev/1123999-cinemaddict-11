@@ -26,15 +26,16 @@ export default class API {
       url: `movies/${movie.id}`,
       method: Method.PUT,
       body: JSON.stringify(movie.toRAW()),
-      headers: new Headers({'Content-Type': `application/json`})})
-        .then((response) => response.json())
-        .then(Movie.parseMovie);
+      headers: new Headers({'Content-Type': `application/json`})
+    })
+      .then((response) => response.json())
+      .then(Movie.parseMovie);
   }
 
   getComments(filmId) {
     return this._load({url: `comments/${filmId}`})
-    .then((response) => response.json())
-    .then(Comment.parseComments);
+      .then((response) => response.json())
+      .then(Comment.parseComments);
   }
 
   createComment(filmId, data) {
@@ -42,8 +43,9 @@ export default class API {
       url: `comments/${filmId}`,
       method: Method.POST,
       body: JSON.stringify(data),
-      headers: new Headers({'Content-Type': `application/json`})})
-        .then((response) => response.json());
+      headers: new Headers({'Content-Type': `application/json`})
+    })
+      .then((response) => response.json());
   }
 
   deleteComment(commentId) {

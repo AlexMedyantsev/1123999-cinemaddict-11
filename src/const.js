@@ -51,6 +51,11 @@ export const ProfileRank = {
   MOVIE_BUFF: `movie buff`
 };
 
+export const DefaultData = {
+  deleteButtonText: `Delete`,
+  deleteButtonDisabled: ``,
+};
+
 export const BODY_ELEMENT = document.querySelector(`body`);
 export const SITE_HEADER_ELEMENT = document.querySelector(`.header`);
 export const SITE_MAIN_ELEMENT = document.querySelector(`.main`);
